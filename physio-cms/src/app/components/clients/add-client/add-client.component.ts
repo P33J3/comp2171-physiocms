@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import { ClientService } from "../../../services/client/client.service";
 
 // interface clientForm {
 //   firstName: string;
@@ -24,7 +25,9 @@ import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, V
 export class AddClientComponent {
   clientForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private client: ClientService) {
+
     this.clientForm = this.fb.group({
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
@@ -35,10 +38,23 @@ export class AddClientComponent {
       weight: ["", Validators.required],
       // weight: ['', Validators.required]
     })
+
+
   }
 
   onSubmit() {
     console.log("Form submitted", this.clientForm.value);
+    this.client.addClient(this.clientForm.value).subscribe(
+      response => {
+        console.log('Client added successfully:', response);
+        // Handle success, e.g., show a success message or navigate to another page
+      },
+      error => {
+        console.error('Error adding client:', error);
+        // Handle error, e.g., show an error message to the user
+      }
+
+    )
   }
 
 

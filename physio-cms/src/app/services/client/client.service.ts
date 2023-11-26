@@ -1,11 +1,20 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import * as environment  from '../../../../environment.app';
+import { shareReplay } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  addClient(data:any) {
+    return this.http.post(environment.localhost + '/addclient', { ...data }).pipe(shareReplay());
+  }
 
   clientData = [
     {
