@@ -20,6 +20,11 @@ export class ClientService {
     return this.http.get(environment.localhost + `/getclient?id=${id}`);
   }
 
+  updateClient(id:any, data:any) {
+    return this.http.post(environment.localhost + `/update?id=${id}`,
+      {id:id, ...data});
+  }
+
   clientData = [
     {
       "name": "Alice Johnson",

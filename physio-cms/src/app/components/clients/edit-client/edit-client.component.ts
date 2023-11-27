@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ClientService } from "../../../services/client/client.service";
-import { map, shareReplay, tap } from "rxjs";
 import { ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -32,7 +31,6 @@ export class EditClientComponent implements OnInit{
       condition: ['', Validators.required],
       status: ['', Validators.required],
       weight: ['', Validators.required],
-      // weight: ['', Validators.required]
     });
   }
 
@@ -53,9 +51,6 @@ export class EditClientComponent implements OnInit{
           status: this.clientData.status,
           weight: this.clientData.weight,
         });
-
-        console.log('clientForm', this.clientForm.value);
-        console.log('clientData', this.clientData);
       },
       error => {
         console.error('Error fetching client data:', error);
@@ -64,6 +59,17 @@ export class EditClientComponent implements OnInit{
   }
 
   onSubmit() {
-    // Handle form submission logic here
+    console.log("Form submitted", this.clientForm.value);
+    this.client.updateClient(this.id, this.clientForm.value).subscribe(
+      response => {
+        console.log('Client added successfully:', response);
+        // Handle success, e.g., show a success message or navigate to another page
+      },
+      error => {
+        console.error('Error adding client:', error);
+        // Handle error, e.g., show an error message to the user
+      }
+    )
+    // this.clientForm.reset();
   }
 }
