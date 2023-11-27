@@ -1,5 +1,4 @@
 import { Route } from '@angular/router';
-import {ClientListComponent} from "./components/clients/client-list/client-list.component";
 import {AddClientComponent} from "./components/clients/add-client/add-client.component";
 import { EditClientComponent } from "./components/clients/edit-client/edit-client.component";
 import { ClientDetailsComponent } from "./components/clients/client-details/client-details.component";
