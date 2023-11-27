@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-import {addDoc, getDocs, doc, updateDoc, deleteDoc} from 'firebase/firestore';
+import {addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc} from 'firebase/firestore';
 import { clientsRef } from './firebaseConfig.mjs';
 app.get("/", async (req, res) => {
     try {
@@ -17,6 +17,28 @@ app.get("/", async (req, res) => {
         res.send(clientList);
     } catch (error) {
         console.error('Could not get clients: ', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
+app.get("/getclient", async (req, res) => {
+    try {
+        let client;
+        const id = req.query.id;  // Use req.query to get the ID from query parameters
+        if (!id) {
+            return res.status(400).send({ error: 'Client ID is required' });
+        }
+
+        const clientRefFull = doc(clientsRef, id);
+        const snapshot = await getDoc(clientRefFull);
+
+        if (snapshot.exists()) {
+            client = { id: doc.id, ...snapshot.data() };
+        }
+
+        res.send(client);
+    } catch (error) {
+        console.error('Could not get client: ', error);
         res.status(500).send({ error: 'Internal Server Error' });
     }
 });

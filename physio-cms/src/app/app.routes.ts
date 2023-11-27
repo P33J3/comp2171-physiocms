@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import {ClientListComponent} from "./components/clients/client-list/client-list.component";
 import {AddClientComponent} from "./components/clients/add-client/add-client.component";
+import { EditClientComponent } from "./components/clients/edit-client/edit-client.component";
 
 export const appRoutes: Route[] = [
     {
@@ -15,5 +16,9 @@ export const appRoutes: Route[] = [
     {
         path: 'addclient',
         component: AddClientComponent
+    },
+    {
+        path: 'getclient/:id',
+        component: EditClientComponent
     }
 ];

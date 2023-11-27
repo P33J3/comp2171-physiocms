@@ -16,6 +16,10 @@ export class ClientService {
     return this.http.post(environment.localhost + '/addclient', { ...data }).pipe(shareReplay());
   }
 
+  viewClient(id:any) {
+    return this.http.get(environment.localhost + `/getclient?id=${id}`);
+  }
+
   clientData = [
     {
       "name": "Alice Johnson",

@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http'; // Import HttpClientMod
 import { ClientService } from './services/client/client.service';
 import { AddClientComponent } from "./components/clients/add-client/add-client.component";
 import { ClientListComponent } from "./components/clients/client-list/client-list.component";
+import { EditClientComponent } from "./components/clients/edit-client/edit-client.component";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ClientListComponent } from "./components/clients/client-list/client-lis
     RouterModule.forRoot(appRoutes),
     HttpClientModule, // Add HttpClientModule to the imports array
     AddClientComponent,
-    ClientListComponent
+    ClientListComponent,
+    EditClientComponent
   ],
   providers: [
     ClientService,
