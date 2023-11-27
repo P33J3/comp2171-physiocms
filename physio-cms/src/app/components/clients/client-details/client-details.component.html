@@ -1,1 +1,11 @@
-<p>client-details works!</p>
+
+
+<div *ngIf="clientData">
+  <p>First Name: {{clientData?.firstName}}</p>
+  <p>Last Name: {{clientData?.lastName}}</p>
+  <p>Age: {{clientData?.age}}</p>
+  <p>Gender: {{clientData?.gender}}</p>
+  <p>Condition: {{clientData?.condition}}</p>
+  <p>Patient Status: {{clientData?.status}}</p>
+  <p>Weight (lbs): {{clientData?.weight}}</p>
+</div>

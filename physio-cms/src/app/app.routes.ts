@@ -2,17 +2,18 @@ import { Route } from '@angular/router';
 import {ClientListComponent} from "./components/clients/client-list/client-list.component";
 import {AddClientComponent} from "./components/clients/add-client/add-client.component";
 import { EditClientComponent } from "./components/clients/edit-client/edit-client.component";
+import { ClientDetailsComponent } from "./components/clients/client-details/client-details.component";
 
 export const appRoutes: Route[] = [
     {
         path: '',
-        redirectTo: "/home",
+        redirectTo: "/addclient",
         pathMatch: 'full'
     },
-    {
-        path: 'home',
-        component: ClientListComponent
-    },
+    // {
+    //     path: 'home',
+    //     component: ClientListComponent
+    // },
     {
         path: 'addclient',
         component: AddClientComponent
@@ -20,5 +21,9 @@ export const appRoutes: Route[] = [
     {
         path: 'getclient/:id',
         component: EditClientComponent
+    },
+    {
+        path: 'viewclient/:id',
+        component: ClientDetailsComponent
     }
 ];

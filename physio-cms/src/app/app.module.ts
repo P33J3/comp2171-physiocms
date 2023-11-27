@@ -3,23 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
+import { HttpClientModule } from '@angular/common/http';
 import { ClientService } from './services/client/client.service';
 import { AddClientComponent } from "./components/clients/add-client/add-client.component";
-import { ClientListComponent } from "./components/clients/client-list/client-list.component";
 import { EditClientComponent } from "./components/clients/edit-client/edit-client.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    // Other components
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-    HttpClientModule, // Add HttpClientModule to the imports array
+    HttpClientModule,
     AddClientComponent,
-    ClientListComponent,
     EditClientComponent
   ],
   providers: [
