@@ -25,6 +25,10 @@ export class ClientService {
       {id:id, ...data});
   }
 
+  deleteClient(id: any) {
+    return this.http.delete(environment.localhost + `/delete?id=${id}`);
+  }
+
   clientData = [
     {
       "name": "Alice Johnson",

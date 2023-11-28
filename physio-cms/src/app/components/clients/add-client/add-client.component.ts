@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import { ClientService } from "../../../services/client/client.service";
+import { Router } from "@angular/router";
 
 // interface clientForm {
 //   firstName: string;
@@ -25,8 +26,11 @@ import { ClientService } from "../../../services/client/client.service";
 export class AddClientComponent {
   clientForm: FormGroup;
 
-  constructor(private fb: FormBuilder,
-              private client: ClientService) {
+  constructor(
+    private fb: FormBuilder,
+    private client: ClientService,
+    private router: Router
+              ) {
 
     this.clientForm = this.fb.group({
       firstName: ["", Validators.required],
@@ -46,7 +50,9 @@ export class AddClientComponent {
     console.log("Form submitted", this.clientForm.value);
     this.client.addClient(this.clientForm.value).subscribe(
       response => {
+        this.router.navigate(['/home']);
         console.log('Client added successfully:', response);
+
         // Handle success, e.g., show a success message or navigate to another page
       },
       error => {

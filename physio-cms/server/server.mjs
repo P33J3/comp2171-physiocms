@@ -1,9 +1,6 @@
 
-
-// const express = require('express');
 import express from 'express';
 import cors from 'cors'
-// const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -72,9 +69,14 @@ app.post("/update", async (req, res) => {
     }
 });
 
-app.post("/delete", async (req, res) => {
+app.delete("/delete", async (req, res) => {
     try {
-        const id = req.body.id;
+        const id = req.query.id; // Extract id from request query parameters
+        if (!id) {
+            res.status(400).send({ error: 'Missing or invalid id parameter' });
+            return;
+        }
+
         await deleteDoc(doc(clientsRef, id));
         res.send({ msg: "Deleted" });
     } catch (error) {
