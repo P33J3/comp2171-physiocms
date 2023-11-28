@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import * as environment  from '../../../../environment.app';
-import { Observable, shareReplay } from "rxjs";
+import { Observable } from "rxjs";
 import { Client } from "../../models/client.model";
 
 @Injectable({

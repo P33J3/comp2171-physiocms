@@ -1,4 +1,4 @@
-import { Component, Output } from "@angular/core";
+import { Component, OnInit, Output } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { ClientService } from "../../../services/client/client.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -11,7 +11,7 @@ import { Client } from "../../../models/client.model";
   templateUrl: './client-list.component.html',
   styleUrl: './client-list.component.css',
 })
-export class ClientListComponent {
+export class ClientListComponent implements OnInit{
   @Output() id: any;
   constructor(
     private client: ClientService,
