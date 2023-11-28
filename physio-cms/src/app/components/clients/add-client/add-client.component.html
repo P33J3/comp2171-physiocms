@@ -1,24 +1,52 @@
-<form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="clientForm" novalidate (ngSubmit)="onSubmit()">
     <label for="firstname">First Name</label>
-    <input type="text" formControlName="firstName" id="firstname">
+    <input
+      type="text"
+      formControlName="firstName"
+      id="firstname"
+      placeholder="First Name"
+      (blur)="clientForm.get('firstName')?.markAsTouched()">
+
+    <div *ngIf="clientForm.get('firstName')?.hasError('required')
+                && clientForm.get('firstName')?.touched" style="color: red">
+        First Name is required!
+    </div>
 
     <label for="lastname">Last Name</label>
-    <input type="text" formControlName="lastName" id="lastname">
+    <input type="text" formControlName="lastName" id="lastname" placeholder="Last Name">
+    <div *ngIf="clientForm.get('lastName')?.hasError('required')
+                && clientForm.get('lastName')?.touched" style="color: red">
+        Last Name is required!
+    </div>
 
     <label for="age">Age</label>
-    <input type="text" name="age" id="age" formControlName="age">
+    <input type="number" name="age" id="age" formControlName="age">
+    <div *ngIf="clientForm.get('age')?.hasError('required')
+                && clientForm.get('age')?.touched" style="color: red">
+        Age is required!
+    </div>
 
     <div class="form-group gender">
+
         <label for="gendermale">Male</label>
         <input type="radio" formControlName="gender" id="gendermale" value="male">
 
         <label for="genderfemale">Female</label>
         <input type="radio" formControlName="gender" id="genderfemale" value="female">
+
+        <div *ngIf="clientForm.get('gender')?.hasError('required')
+                && clientForm.get('gender')?.touched" style="color: red">
+            Gender is required!
+        </div>
     </div>
 
 
     <label for="condition">Condition</label>
-    <input type="text" formControlName="condition" id="condition">
+    <input type="text" formControlName="condition" id="condition" placeholder="Condition">
+    <div *ngIf="clientForm.get('condition')?.hasError('required')
+                && clientForm.get('condition')?.touched" style="color: red">
+        Condition is required!
+    </div>
     <div>
         <label for="status">Patient Status:</label>
 
@@ -27,16 +55,22 @@
             <option value="inactive">Inactive</option>
             <option value="discharged">Discharged</option>
         </select>
+        <div *ngIf="clientForm.get('status')?.hasError('required')
+                && clientForm.get('status')?.touched" style="color: red">
+            Status is required!
+        </div>
+
     </div>
 
+
     <label for="weight">Weight (lbs)</label>
-    <input type="number" formControlName="weight" id="weight">
+    <input type="number" formControlName="weight" id="weight" placeholder="Weight">
+    <div *ngIf="clientForm.get('weight')?.hasError('required')
+                && clientForm.get('weight')?.touched" style="color: red">
+        Status is required!
+    </div>
 
     <button type="submit">Submit</button>
-    <button type="button">Cancel</button>
-
-<!--    <label for="treatment">Treatment #</label>-->
-<!--    <input type="text" name="treatment" id="treatment" >-->
-
+    <button type="button" (click)="cancel()">Cancel</button>
 
 </form>

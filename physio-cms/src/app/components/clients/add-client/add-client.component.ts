@@ -46,6 +46,10 @@ export class AddClientComponent {
 
   }
 
+  cancel() {
+    this.router.navigate(['/home']);
+  }
+
   onSubmit() {
     console.log("Form submitted", this.clientForm.value);
     this.client.addClient(this.clientForm.value).subscribe(
