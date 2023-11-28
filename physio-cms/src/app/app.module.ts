@@ -8,6 +8,7 @@ import { ClientService } from './services/client/client.service';
 import { AddClientComponent } from "./components/clients/add-client/add-client.component";
 import { EditClientComponent } from "./components/clients/edit-client/edit-client.component";
 import { ClientListComponent } from "./components/clients/client-list/client-list.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ClientListComponent } from "./components/clients/client-list/client-lis
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
+    FormsModule,
     HttpClientModule,
     AddClientComponent,
     EditClientComponent,
