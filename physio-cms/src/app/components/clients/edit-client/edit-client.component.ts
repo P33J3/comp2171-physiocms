@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ClientService } from "../../../services/client/client.service";
-import { ActivatedRoute} from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'physio-cms-edit-client',
@@ -20,7 +20,8 @@ export class EditClientComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private client: ClientService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
 
     this.clientForm = this.fb.group({
@@ -58,10 +59,15 @@ export class EditClientComponent implements OnInit{
     );
   }
 
+  cancel() {
+    this.router.navigate(['/home']);
+  }
+
   onSubmit() {
     console.log("Form submitted", this.clientForm.value);
     this.client.updateClient(this.id, this.clientForm.value).subscribe(
       response => {
+        this.router.navigate(['/home']);
         console.log('Client added successfully:', response);
         // Handle success, e.g., show a success message or navigate to another page
       },

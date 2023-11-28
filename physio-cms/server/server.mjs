@@ -10,7 +10,7 @@ import { clientsRef } from './firebaseConfig.mjs';
 app.get("/", async (req, res) => {
     try {
         const snapshot = await getDocs(clientsRef);
-        const clientList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        let clientList =  snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         res.send(clientList);
     } catch (error) {
         console.error('Could not get clients: ', error);

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { ClientService } from "../../../services/client/client.service";
 import { ActivatedRoute, Router } from "@angular/router";
-
+import { Client } from '../../../models/client.model';
 @Component({
   selector: 'physio-cms-client-details',
   standalone: true,
@@ -10,29 +10,27 @@ import { ActivatedRoute, Router } from "@angular/router";
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.css',
 })
-export class ClientDetailsComponent implements OnInit{
-  @Input() id: any = "R0nnQALIthEXaiZ6W0UQ";
-
+export class ClientDetailsComponent implements OnInit {
+  id: string = 'R0nnQALIthEXaiZ6W0UQ';
+  clientData: Client | undefined;
   constructor(
     private client: ClientService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
-  clientData: any = {};
-
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
 
-    this.client.viewClient(this.id).subscribe(
-      client => {
-        this.clientData = client;
-        console.log('clientData', this.clientData);
-      });
+
+    this.client.viewClient(this.id).subscribe((client) => {
+      this.clientData = client;
+      console.log('clientData', this.clientData);
+    });
   }
 
-  editClient(){
-    this.router.navigate(([`/getclient/${this.id}`]))
+  editClient() {
+    this.router.navigate([`/getclient/${this.id}`]);
   }
 
   deleteClient() {
@@ -43,6 +41,6 @@ export class ClientDetailsComponent implements OnInit{
       (error) => {
         //Handle error
       }
-    )
+    );
   }
 }
