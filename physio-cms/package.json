@@ -4,8 +4,10 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nx serve",
-    "build": "nx build",
+    "start": "nx serve physio-cms",
+    "build": "nx build physio-cms",
+    "start:server": "node server/server.mjs",
+    "build:server": "tsc -p tsconfig.app.json",
     "test": "nx test"
   },
   "private": true,

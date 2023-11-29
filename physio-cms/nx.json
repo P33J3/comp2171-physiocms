@@ -63,6 +63,11 @@
     },
     "@nx/angular:component": {
       "style": "css"
+    },
+    "@nrwl/node:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
     }
   },
   "defaultProject": "physio-cms",
