@@ -7,7 +7,7 @@ import { ClientListComponent } from "./components/clients/client-list/client-lis
 export const appRoutes: Route[] = [
     {
         path: '',
-        redirectTo: "/addclient",
+        redirectTo: "/home",
         pathMatch: 'full'
     },
     {
