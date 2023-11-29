@@ -7,7 +7,7 @@
     "start": "nx serve physio-cms",
     "build": "nx build physio-cms",
     "start:server": "node server/server.mjs",
-    "build:server": "npm install && tsc -p tsconfig.server.json",
+    "build:server": "tsc -p tsconfig.server.json --listFiles",
     "build:all": "npm run build && npm run build:server",
     "test": "nx test"
   },
@@ -32,8 +32,8 @@
     "zone.js": "~0.14.0"
   },
   "engines": {
-    "node": "20.9.0",
-    "npm": "8.4.1"
+    "node": "18.14.0",
+    "npm": "9.7.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~17.0.0",
