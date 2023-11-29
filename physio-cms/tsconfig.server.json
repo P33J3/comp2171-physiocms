@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc-server",
+    "rootDir": "./server",
+    "types": []
+  },
+  "files": ["server/server.mjs"],
+  "include": ["server/**/*.d.ts"],
+  "exclude": ["jest.config.ts", "server/**/*.test.ts", "server/**/*.spec.ts"]
+}
