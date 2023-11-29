@@ -7,7 +7,7 @@
     "start": "nx serve physio-cms",
     "build": "nx build physio-cms",
     "start:server": "node server/server.mjs",
-    "build:server": "tsc -p tsconfig.server.json",
+    "build:server": "node_modules/.bin/tsc -p tsconfig.server.json",
     "build:all": "npm run build && npm run build:server",
     "test": "nx test"
   },
