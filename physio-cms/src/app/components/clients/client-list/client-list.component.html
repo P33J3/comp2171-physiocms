@@ -4,7 +4,7 @@
     <input type="text" placeholder="Search by Last Name" [(ngModel)]="searchLastName" (input)="applyFilter()" />
 
     <button (click)="clearFilter()">Clear</button>
-
+    <button (click)="addClientView()">Add Client</button>
 </div>
 <div *ngFor="let client of clientData">
     <p>First Name: {{client.firstName}}</p>

@@ -35,6 +35,10 @@ export class ClientListComponent implements OnInit{
     this.router.navigate([`/viewclient/${id}`])
   }
 
+  addClientView() {
+    this.router.navigate([`/addclient`])
+  }
+
   applyFilter() {
     if (!this.clientData) {
       return;
