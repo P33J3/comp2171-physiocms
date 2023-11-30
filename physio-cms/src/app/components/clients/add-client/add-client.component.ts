@@ -3,19 +3,6 @@ import { CommonModule } from '@angular/common';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import { ClientService } from "../../../services/client/client.service";
 import { Router } from "@angular/router";
-
-// interface clientForm {
-//   firstName: string;
-//   lastName: string;
-//   age: string;
-//   gender: {
-//     gendermale: string;
-//     genderfemale: string;
-//   };
-//   condition: string;
-//   status: string;
-//   weight: string;
-// }
 @Component({
   selector: 'physio-cms-add-client',
   standalone: true,
@@ -40,7 +27,6 @@ export class AddClientComponent {
       condition: ["", Validators.required],
       status: ["", Validators.required],
       weight: ["", Validators.required],
-      // weight: ['', Validators.required]
     })
 
 
@@ -51,17 +37,9 @@ export class AddClientComponent {
   }
 
   onSubmit() {
-    console.log("Form submitted", this.clientForm.value);
     this.client.addClient(this.clientForm.value).subscribe(
       response => {
         this.router.navigate(['/home']);
-        console.log('Client added successfully:', response);
-
-        // Handle success, e.g., show a success message or navigate to another page
-      },
-      error => {
-        console.error('Error adding client:', error);
-        // Handle error, e.g., show an error message to the user
       }
 
     )

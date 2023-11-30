@@ -8,7 +8,7 @@
       (blur)="clientForm.get('firstName')?.markAsTouched()">
 
     <div *ngIf="clientForm.get('firstName')?.hasError('required')
-                && clientForm.get('firstName')?.touched" style="color: red">
+            && clientForm.get('firstName')?.touched" style="color: red">
         First Name is required!
     </div>
 
@@ -70,7 +70,9 @@
         Status is required!
     </div>
 
-    <button type="submit">Submit</button>
+    <button
+      type="submit"
+      [disabled]="!clientForm.valid">Submit</button>
     <button type="button" (click)="cancel()">Cancel</button>
 
 </form>

@@ -11,7 +11,7 @@ import { Client } from '../../../models/client.model';
   styleUrl: './client-details.component.css',
 })
 export class ClientDetailsComponent implements OnInit {
-  id: string = 'R0nnQALIthEXaiZ6W0UQ';
+  id: string = '';
   clientData: Client | undefined;
   constructor(
     private client: ClientService,
@@ -25,7 +25,6 @@ export class ClientDetailsComponent implements OnInit {
 
     this.client.viewClient(this.id).subscribe((client) => {
       this.clientData = client;
-      console.log('clientData', this.clientData);
     });
   }
 
@@ -37,9 +36,6 @@ export class ClientDetailsComponent implements OnInit {
     this.client.deleteClient(this.id).subscribe(
       () => {
         this.router.navigate(['/home']);
-      },
-      (error) => {
-        //Handle error
       }
     );
   }

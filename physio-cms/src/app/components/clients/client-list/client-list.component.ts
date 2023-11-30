@@ -13,7 +13,7 @@ import { FormsModule } from "@angular/forms";
   styleUrl: './client-list.component.css',
 })
 export class ClientListComponent implements OnInit{
-  @Output() id: any;
+  id: string = '';
   constructor(
     private client: ClientService,
     private router: Router
@@ -40,16 +40,11 @@ export class ClientListComponent implements OnInit{
   }
 
   applyFilter() {
-    if (!this.clientData) {
-      return;
-    }
 
-    // Convert search text to lowercase for case-insensitive search
     const searchTermFirst = this.searchFirstName.toLowerCase();
     const searchTermLast = this.searchLastName.toLowerCase();
 
-    // Filter clientData based on both first name and last name containing the search terms
-    this.clientData = this.clientData.filter(
+    this.clientData = this.clientData?.filter(
       (client) =>
         client.firstName.toLowerCase().includes(searchTermFirst) &&
         client.lastName.toLowerCase().includes(searchTermLast)
@@ -57,12 +52,11 @@ export class ClientListComponent implements OnInit{
   }
 
   clearFilter() {
-    // Reset clientData to the original list when the search is cleared
+
     this.client.allClients().subscribe((clients) => {
       this.clientData = clients;
     });
 
-    // Clear the search input fields
     this.searchFirstName = '';
     this.searchLastName = '';
   }
