@@ -19,9 +19,17 @@ import { EditClientComponent } from "./components/clients/edit-client/edit-clien
     RouterModule.forRoot(appRoutes),
     HttpClientModule, // Add HttpClientModule to the imports array
     AddClientComponent,
+<<<<<<< Updated upstream
     ClientListComponent,
     EditClientComponent
   ],
+=======
+    EditClientComponent,
+    ClientListComponent,
+    //MatToolbarModule,
+    //MatIconModule
+    ],
+>>>>>>> Stashed changes
   providers: [
     ClientService,
   ],

@@ -1,1 +1,83 @@
+<<<<<<< Updated upstream
 <p>client-details works!</p>
+=======
+
+<!-- 
+<div *ngIf="clientData">
+  <p>First Name: {{clientData?.firstName}}</p>
+  <p>Last Name: {{clientData?.lastName}}</p>
+  <p>Age: {{clientData?.age}}</p>
+  <p>Gender: {{clientData?.gender}}</p>
+  <p>Condition: {{clientData?.condition}}</p>
+  <p>Patient Status: {{clientData?.status}}</p>
+  <p>Weight (lbs): {{clientData?.weight}}</p>
+  <button (click)="deleteClient()">Delete Client</button>
+  <button (click)="editClient()">Edit Client</button>
+</div>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Client Information</title>
+  <link rel="stylesheet" type="text/css" href="client-details.component.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .clinic-info {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .clinic-info p {
+      margin: 10px 0;
+    }
+
+    .clinic-info button {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .clinic-info button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<div *ngIf="clientData" class="clinic-info">
+  <p>First Name: {{clientData.firstName}}</p>
+  <p>Last Name: {{clientData.lastName}}</p>
+  <p>Age: {{clientData.age}}</p>
+  <p>Gender: {{clientData.gender}}</p>
+  <p>Condition: {{clientData.condition}}</p>
+  <p>Patient Status: {{clientData.status}}</p>
+  <p>Weight (lbs): {{clientData.weight}}</p>
+  <p>Report (Short Description Of Client Ailment): {{clientData.report}}</p>
+
+  <button (click)="deleteClient()">Delete Client</button>
+  <button (click)="editClient()">Edit Client</button>
+</div>
+
+</body>
+</html>
+>>>>>>> Stashed changes

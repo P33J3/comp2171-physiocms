@@ -32,7 +32,11 @@ export class EditClientComponent implements OnInit{
       condition: ['', Validators.required],
       status: ['', Validators.required],
       weight: ['', Validators.required],
+<<<<<<< Updated upstream
       // weight: ['', Validators.required]
+=======
+      report: ['',  Validators. required],
+>>>>>>> Stashed changes
     });
   }
 
@@ -52,6 +56,7 @@ export class EditClientComponent implements OnInit{
           condition: this.clientData.condition,
           status: this.clientData.status,
           weight: this.clientData.weight,
+          report: this.clientData.report,
         });
 
         console.log('clientForm', this.clientForm.value);

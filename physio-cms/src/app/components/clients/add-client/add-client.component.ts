@@ -37,6 +37,7 @@ export class AddClientComponent {
       status: ["", Validators.required],
       weight: ["", Validators.required],
       // weight: ['', Validators.required]
+      report: ["", Validators.required],
     })
 
 
