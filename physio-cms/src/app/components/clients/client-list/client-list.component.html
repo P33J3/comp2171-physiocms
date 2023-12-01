@@ -1,70 +1,24 @@
-<<<<<<< Updated upstream
 
-<!--<div *ngFor="let client of clientData" >-->
-<!--    <p>Name: {{client.name}}</p>-->
-<!--    <p>Age: {{client.age}}</p>-->
-<!--    <p>Status: {{client.patient_status}}</p>-->
-<!--    <p>Goals: {{client.goals}}</p>-->
-<!--    <hr>-->
-<!--</div>-->
-
-<p>This component works!</p>
-=======
-<!--
-<div>
-    <input type="text" placeholder="Search by First Name" [(ngModel)]="searchFirstName" (input)="applyFilter()" />
-    <input type="text" placeholder="Search by Last Name" [(ngModel)]="searchLastName" (input)="applyFilter()" />
-
-    <button (click)="clearFilter()">Clear</button>
-
-</div>
-<div *ngFor="let client of clientData">
-    <p>First Name: {{client.firstName}}</p>
-    <p>Last Name: {{client.lastName}}</p>
-    <p>Age: {{client.age}}</p>
-    <p>Gender: {{client.gender}}</p>
-    <p>Condition: {{client.condition}}</p>
-    <p>Patient Status: {{client.status}}</p>
-    <p>Weight (lbs): {{client.weight}}</p>
-
-    <button (click)="viewClient(client.id)">View Client</button>
-  <hr>
-</div>
--->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clinic Search</title>
-  <link rel="stylesheet" type="text/css" href="client-list.component.css">
-</head>
 <body>
+  <div class="clinic-search">
+      <input type="text" placeholder="Search by First Name" [(ngModel)]="searchFirstName" (input)="applyFilter()" />
+      <input type="text" placeholder="Search by Last Name" [(ngModel)]="searchLastName" (input)="applyFilter()" />
+      <button (click)="clearFilter()">Clear</button>
+      <button (click)="addClientView()">Add Client</button>
+  </div>
+  <div class="clinic-client-list" *ngFor="let client of clientData">
+      <div class="client-info">
+          <p>First Name: {{client.firstName}}</p>
+          <p>Last Name: {{client.lastName}}</p>
+          <p>Age: {{client.age}}</p>
+          <p>Gender: {{client.gender}}</p>
+          <p>Condition: {{client.condition}}</p>
+          <p>Patient Status: {{client.status}}</p>
+          <p>Weight (lbs): {{client.weight}}</p>
+          <p>Report (Short Description Of Client Ailment): {{client.report}}</p>
 
-<div class="clinic-search">
-    <input type="text" placeholder="Search by First Name" [(ngModel)]="searchFirstName" (input)="applyFilter()" />
-    <input type="text" placeholder="Search by Last Name" [(ngModel)]="searchLastName" (input)="applyFilter()" />
-
-    <button (click)="clearFilter()">Clear</button>
-</div>
-
-<div class="clinic-client-list" *ngFor="let client of clientData">
-    <div class="client-info">
-        <p>First Name: {{client.firstName}}</p>
-        <p>Last Name: {{client.lastName}}</p>
-        <p>Age: {{client.age}}</p>
-        <p>Gender: {{client.gender}}</p>
-        <p>Condition: {{client.condition}}</p>
-        <p>Patient Status: {{client.status}}</p>
-        <p>Weight (lbs): {{client.weight}}</p>
-        <p>Report (Short Description Of Client Ailment): {{client.report}}</p>
-
-        <button (click)="viewClient(client.id)">View Client</button>
-    </div>
-    <hr>
-</div>
-
+          <button (click)="viewClient(client.id)">View Client</button>
+      </div>
+      <hr>
+  </div>
 </body>
-</html>
-
->>>>>>> Stashed changes

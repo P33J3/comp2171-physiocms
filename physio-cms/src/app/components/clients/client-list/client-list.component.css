@@ -4,19 +4,19 @@ body {
     padding: 0;
     background-color: #f8f8f8;
   }
-  
+
   .clinic-search {
     background-color: #3498db;
     color: #fff;
     padding: 20px;
     text-align: center;
   }
-  
+
   .clinic-search input {
     padding: 10px;
     margin: 5px;
   }
-  
+
   .clinic-search button {
     background-color: #27ae60;
     color: #fff;
@@ -25,12 +25,13 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-right: 5px;
   }
-  
+
   .clinic-search button:hover {
     background-color: #218c53;
   }
-  
+
   .clinic-client-list {
     max-width: 800px;
     margin: 20px auto;
@@ -38,16 +39,16 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  
+
   .client-info {
     padding: 20px;
   }
-  
+
   .client-info p {
     margin: 10px 0;
     font-size: 16px;
   }
-  
+
   .client-info button {
     background-color: #3498db;
     color: #fff;
@@ -57,13 +58,12 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
   }
-  
+
   .client-info button:hover {
     background-color: #2980b9;
   }
-  
+
   hr {
     border: 0.5px solid #ddd;
     margin: 20px 0;
   }
-  

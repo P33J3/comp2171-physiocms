@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 export interface Client {
   id: number;
   firstName: string;
@@ -11,4 +10,3 @@ export interface Client {
   weight: number;
   report: string;
 }
->>>>>>> Stashed changes
