@@ -38,4 +38,9 @@ export class AppointmentService {
     return this.http.get<any[]>(environment.localhost + `/get-calendar-events`);
   }
 
+  deleteAppointment(id:string) {
+    return this.http.delete(environment.localhost + `/delete-calendar-event?id=${id}`);
+  }
+
+
 }

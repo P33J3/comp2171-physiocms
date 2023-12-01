@@ -190,4 +190,44 @@ app.get("/get-calendar-events", async (req, res) => {
       });
 })
 
+app.delete("/delete-calendar-event", async (req, res) => {
+    try {
+        const id = req.query.id;
+        if (!id) {
+            res.status(400).send({ error: 'Missing or invalid id parameter' });
+            return;
+        }
+        const CREDENTIALS = JSON.parse(process.env.GOOGLE_CALENDAR_SERVICE_ACCOUNT)
+        const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID
+        const GOOGLE_PROJECT_ID = process.env.GOOGLE_PROJECT_ID
+        const GOOGLE_CALENDAR_VERSION = process.env.GOOGLE_CALENDAR_VERSION
+        const GOOGLE_API_SCOPES = process.env.GOOGLE_API_SCOPES
+        const SCOPES = [GOOGLE_API_SCOPES];
+
+        const auth = new google.auth.JWT(
+            CREDENTIALS.client_email,
+            null,
+            CREDENTIALS.private_key,
+            SCOPES
+        )
+
+        const calendar = google.calendar({
+            version: GOOGLE_CALENDAR_VERSION,
+            project: GOOGLE_PROJECT_ID,
+            auth: auth,
+        });
+
+        const response = calendar.events.delete({
+            auth: auth,
+            calendarId: CALENDAR_ID,
+            eventId: id
+         })     
+
+        res.send({ msg: "Event Deleted" });
+    } catch (error) {
+        console.error('Could not delete event: ', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
 app.listen(9000, () => console.log("Up & running port " + 9000));

@@ -36,4 +36,12 @@ export class ViewAppointmentsComponent implements OnInit {
     this.router.navigate([`/view-appointment/${id}`])
   }
 
+  deleteAppointment(id: string) {
+    this.client.deleteAppointment(id).subscribe(
+      () => {
+        this.router.navigate(['/view-appointment']);
+      }
+    );
+  }
+
 }
