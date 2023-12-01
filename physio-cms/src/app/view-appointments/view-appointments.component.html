@@ -1,0 +1,50 @@
+
+  <div class="px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-semibold leading-6 text-gray-900">Appointments</h1>
+        <p class="mt-2 text-sm text-gray-700">
+            Explore your upcoming appointments in the table below. This list includes details such as the appointment summary, a brief description, start and end dates, and an option to take action if needed. Stay organized and stay on top of your schedule with this comprehensive view of your upcoming events.
+        </p>
+      </div>
+      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+        <a target="_blank" href="/add-appointment">
+        <button type="button" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add new Appointment</button>
+        </a>
+      </div>
+    </div>
+    <div class="-mx-4 mt-10 ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">
+      <table class="min-w-full divide-y divide-gray-300">
+        <thead>
+          <tr>
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Summary</th>
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Description</th>
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Start</th>
+            <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">End</th>
+            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+              <span class="sr-only">Action</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let appointment of appointments">
+            <td class="relative py-4 pl-4 pr-3 text-sm sm:pl-6">
+              <div class="font-medium text-gray-900">{{ appointment.summary }}</div>
+            </td>
+            <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">{{ appointment.description }}</td>
+            <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">{{ appointment.start.dateTime }}</td>
+            <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">{{ appointment.start.dateTime }}</td>
+            <td class="px-3 py-3.5 text-sm text-gray-500">
+              <div class="sm:hidden">{{ appointment.end.dateTime }}</div>
+              <div class="hidden sm:block">{{ appointment.end.dateTime }}</div>
+            </td>
+            <td class="relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+              <button type="button" class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">Edit<span class="sr-only">, Appointment</span></button>
+            </td>
+          </tr>
+    
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
