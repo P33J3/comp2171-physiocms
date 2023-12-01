@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import * as environment  from '../../../../environment.app';
-import { shareReplay } from "rxjs";
+import { Observable } from "rxjs";
+import { Client } from "../../models/client.model";
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,25 @@ export class ClientService {
     private http: HttpClient
   ) { }
 
-  addClient(data:any) {
-    return this.http.post(environment.localhost + '/addclient', { ...data }).pipe(shareReplay());
+  addClient(data:Client) {
+    return this.http.post(environment.localhost + '/addclient', { ...data });
   }
 
-  viewClient(id:any) {
-    return this.http.get(environment.localhost + `/getclient?id=${id}`);
+  viewClient(id:any): Observable<Client> {
+    return this.http.get<Client>(environment.localhost + `/getclient?id=${id}`);
+  }
+
+  allClients(): Observable<Client[]> {
+    return this.http.get<Client[]>(environment.localhost + `/`);
+  }
+
+  updateClient(id:any, data:Client) {
+    return this.http.post(environment.localhost + `/update?id=${id}`,
+      { ...data, id:id});
+  }
+
+  deleteClient(id: any) {
+    return this.http.delete(environment.localhost + `/delete?id=${id}`);
   }
 
   clientData = [

@@ -1,9 +1,6 @@
 
-
-// const express = require('express');
 import express from 'express';
 import cors from 'cors'
-// const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -13,7 +10,7 @@ import { clientsRef } from './firebaseConfig.mjs';
 app.get("/", async (req, res) => {
     try {
         const snapshot = await getDocs(clientsRef);
-        const clientList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        let clientList =  snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         res.send(clientList);
     } catch (error) {
         console.error('Could not get clients: ', error);
@@ -24,7 +21,7 @@ app.get("/", async (req, res) => {
 app.get("/getclient", async (req, res) => {
     try {
         let client;
-        const id = req.query.id;  // Use req.query to get the ID from query parameters
+        const id = req.query.id;
         if (!id) {
             return res.status(400).send({ error: 'Client ID is required' });
         }
@@ -60,8 +57,6 @@ app.post("/update", async (req, res) => {
     try {
         const id = req.body.id;
         const clientRefFull = doc(clientsRef, id);
-        // console.log('clientRef', clientsRef);
-        // console.log('id', id);
         delete req.body.id;
         const data = req.body;
         await updateDoc(clientRefFull, data);
@@ -72,9 +67,14 @@ app.post("/update", async (req, res) => {
     }
 });
 
-app.post("/delete", async (req, res) => {
+app.delete("/delete", async (req, res) => {
     try {
-        const id = req.body.id;
+        const id = req.query.id;
+        if (!id) {
+            res.status(400).send({ error: 'Missing or invalid id parameter' });
+            return;
+        }
+
         await deleteDoc(doc(clientsRef, id));
         res.send({ msg: "Deleted" });
     } catch (error) {

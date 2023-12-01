@@ -1,170 +1,79 @@
-<<<<<<< Updated upstream
-<form *ngIf="clientData" [formGroup]="clientForm" (ngSubmit)="onSubmit()">
-  <label for="firstname">First Name</label>
-  <input type="text" formControlName="firstName" id="firstname">
-
-  <label for="lastname">Last Name</label>
-  <input type="text" formControlName="lastName" id="lastname">
-
-  <label for="age">Age</label>
-  <input type="text" name="age" id="age" formControlName="age">
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
-  <title>Edit Client Information</title>
-  <link rel="stylesheet" type="text/css" href="edit-client.component.css">
-
-  <style>
-    body {
-     
-      font-family: 'Arial', serif;
-    
-      
-    }
-
-    form {
-      max-width: 400px;
-      margin: 50px auto;
-      padding: 20px;
-      background: rgba(0, 35, 100);
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #C0F207;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 15px;
-      border: 1px solid #C0F207;
-      border-radius: 4px;
-      box-sizing: border-box;
-      background-color: #f8f8f8;
-      color: #333;
-    }
-
-    .gender label {
-      margin-right: 10px;
-      display: inline-block; /* Display radio buttons inline */
-    }
-
-    button {
-      background-color: #4caf50;
-      color: #fff;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    textarea {
-      resize: vertical;
-    }
-  </style>
-</head>
-<body>
- <div  class="Background_color"> </div>   
-
 <form [formGroup]="clientForm" novalidate (ngSubmit)="onSubmit()">
-  <h1>Edit Client Information</h1>
   <label for="firstname">First Name</label>
-  <input type="text" formControlName="firstName" id="firstname" placeholder="First Name" (blur)="clientForm.get('firstName')?.markAsTouched()">
-  <div *ngIf="clientForm.get('firstName')?.hasError('required') && clientForm.get('firstName')?.touched" style="color: red">
+  <input
+    type="text"
+    formControlName="firstName"
+    id="firstname"
+    placeholder="First Name"
+    (blur)="clientForm.get('firstName')?.markAsTouched()">
+
+  <div *ngIf="clientForm.get('firstName')?.hasError('required')
+                && clientForm.get('firstName')?.touched" style="color: red">
     First Name is required!
   </div>
 
   <label for="lastname">Last Name</label>
   <input type="text" formControlName="lastName" id="lastname" placeholder="Last Name">
-  <div *ngIf="clientForm.get('lastName')?.hasError('required') && clientForm.get('lastName')?.touched" style="color: red">
+  <div *ngIf="clientForm.get('lastName')?.hasError('required')
+                && clientForm.get('lastName')?.touched" style="color: red">
     Last Name is required!
   </div>
 
   <label for="age">Age</label>
   <input type="number" name="age" id="age" formControlName="age">
-  <div *ngIf="clientForm.get('age')?.hasError('required') && clientForm.get('age')?.touched" style="color: red">
+  <div *ngIf="clientForm.get('age')?.hasError('required')
+                && clientForm.get('age')?.touched" style="color: red">
     Age is required!
   </div>
->>>>>>> Stashed changes
 
   <div class="form-group gender">
+
     <label for="gendermale">Male</label>
     <input type="radio" formControlName="gender" id="gendermale" value="male">
 
     <label for="genderfemale">Female</label>
     <input type="radio" formControlName="gender" id="genderfemale" value="female">
-<<<<<<< Updated upstream
-=======
 
-    <div *ngIf="clientForm.get('gender')?.hasError('required') && clientForm.get('gender')?.touched" style="color: red">
+    <div *ngIf="clientForm.get('gender')?.hasError('required')
+                && clientForm.get('gender')?.touched" style="color: red">
       Gender is required!
     </div>
->>>>>>> Stashed changes
   </div>
+
 
   <label for="condition">Condition</label>
-<<<<<<< Updated upstream
-  <input type="text" formControlName="condition" id="condition">
-=======
   <input type="text" formControlName="condition" id="condition" placeholder="Condition">
-  <div *ngIf="clientForm.get('condition')?.hasError('required') && clientForm.get('condition')?.touched" style="color: red">
+  <div *ngIf="clientForm.get('condition')?.hasError('required')
+                && clientForm.get('condition')?.touched" style="color: red">
     Condition is required!
   </div>
-
->>>>>>> Stashed changes
   <div>
     <label for="status">Patient Status:</label>
+
     <select formControlName="status" id="status">
       <option value="active">Active</option>
       <option value="inactive">Inactive</option>
       <option value="discharged">Discharged</option>
     </select>
-<<<<<<< Updated upstream
-  </div>
-
-  <label for="weight">Weight (lbs)</label>
-  <input type="number" formControlName="weight" id="weight">
-=======
-    <div *ngIf="clientForm.get('status')?.hasError('required') && clientForm.get('status')?.touched" style="color: red">
+    <div *ngIf="clientForm.get('status')?.hasError('required')
+                && clientForm.get('status')?.touched" style="color: red">
       Status is required!
     </div>
+
   </div>
+
 
   <label for="weight">Weight (lbs)</label>
   <input type="number" formControlName="weight" id="weight" placeholder="Weight">
-  <div *ngIf="clientForm.get('weight')?.hasError('required') && clientForm.get('weight')?.touched">
-    Weight is required!
+  <div *ngIf="clientForm.get('weight')?.hasError('required')
+                && clientForm.get('weight')?.touched" style="color: red">
+    Status is required!
   </div>
 
-  <label for="report">Report:</label>
-  <textarea formControlName="report" id="report" rows="5"></textarea>
-  <div *ngIf="clientForm.get('report')?.hasError('required') && clientForm.get('report')?.touched" style="color: red">
-    Report is required!
-  </div>
->>>>>>> Stashed changes
+  <button
+    type="submit"
+    [disabled]="!clientForm.valid">Submit</button>
 
-  <button type="submit">Submit</button>
-  <button type="button">Cancel</button>
-
-  <!--    <label for="treatment">Treatment #</label>-->
-  <!--    <input type="text" name="treatment" id="treatment" >-->
-
+  <button type="button" (click)="cancel()">Cancel</button>
 
 </form>
-
-</body>
-</html>

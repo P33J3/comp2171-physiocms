@@ -4,8 +4,11 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nx serve",
-    "build": "nx build",
+    "start": "nx serve physio-cms",
+    "build": "nx build physio-cms",
+    "start:server": "node server/server.mjs",
+    "build:server": "tsc -p tsconfig.server.json",
+    "build:all": "npm run build && npm run build:server",
     "test": "nx test"
   },
   "private": true,
@@ -27,6 +30,10 @@
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.0"
+  },
+  "engines": {
+    "node": "18.14.0",
+    "npm": "9.7.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~17.0.0",

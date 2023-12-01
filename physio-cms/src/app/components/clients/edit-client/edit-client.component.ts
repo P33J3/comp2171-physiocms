@@ -2,8 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ClientService } from "../../../services/client/client.service";
-import { map, shareReplay, tap } from "rxjs";
-import { ActivatedRoute} from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'physio-cms-edit-client',
@@ -14,14 +13,14 @@ import { ActivatedRoute} from "@angular/router";
 })
 export class EditClientComponent implements OnInit{
   clientForm: FormGroup;
-
-  @Input() id: any = "j3tYz2Ddf9JP32uoHxTB";
+  id: string = "";
 
 
   constructor(
     private fb: FormBuilder,
     private client: ClientService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
 
     this.clientForm = this.fb.group({
@@ -32,11 +31,6 @@ export class EditClientComponent implements OnInit{
       condition: ['', Validators.required],
       status: ['', Validators.required],
       weight: ['', Validators.required],
-<<<<<<< Updated upstream
-      // weight: ['', Validators.required]
-=======
-      report: ['',  Validators. required],
->>>>>>> Stashed changes
     });
   }
 
@@ -56,19 +50,23 @@ export class EditClientComponent implements OnInit{
           condition: this.clientData.condition,
           status: this.clientData.status,
           weight: this.clientData.weight,
-          report: this.clientData.report,
         });
-
-        console.log('clientForm', this.clientForm.value);
-        console.log('clientData', this.clientData);
-      },
-      error => {
-        console.error('Error fetching client data:', error);
       }
     );
   }
 
+  cancel() {
+    this.router.navigate(['/home']);
+  }
+
   onSubmit() {
-    // Handle form submission logic here
+
+    this.client.updateClient(this.id, this.clientForm.value).subscribe(
+      response => {
+        this.router.navigate(['/home']);
+
+      }
+    )
+    // this.clientForm.reset();
   }
 }
