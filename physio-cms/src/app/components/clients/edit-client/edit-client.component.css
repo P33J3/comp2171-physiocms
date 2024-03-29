@@ -1,0 +1,104 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial',serif;
+    background: rgb(209,238,174);
+    background: linear-gradient(90deg, rgba(209,238,174,1) 0%, rgba(148,209,233,1) 100%);
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    animation: color 12s ease-in-out infinite;
+}
+@keyframes color{
+    0%{
+        background-position: 0% 50%;
+    }
+    50%{
+        background-position: 100% 50%;
+    }
+    100%{
+        background-position: 0% 50%;
+    }
+}
+
+
+form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: rgba(0, 35, 100);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #C0F207;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #C0F207;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.Background_color{
+    background: rgb(209,238,174);
+    background: linear-gradient(90deg, rgba(209,238,174,1) 0%, rgba(148,209,233,1) 100%); 
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+}
+@keyframes color{
+    0%{
+        background-position: 0% 50%;
+    }
+    50%{
+        background-position: 100% 50%;
+    }
+    100%{
+        background-position: 0% 50%;
+    }
+}
+
+.form-group.gender label {
+    display: inline-block;
+    margin-right: 10px; /* Adjust the margin as needed */
+  }
+  
+  .form-group.gender input[type="radio"] {
+    display: inline-block;
+  }
+  
+  .form-group.gender div {
+    display: inline-block;
+    margin-left: 10px; /* Adjust the margin as needed */
+  }
+  
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+textarea {
+    resize: vertical;
+}

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import { ClientService } from "../../../services/client/client.service";
 import { Router } from "@angular/router";
+
+
 @Component({
   selector: 'physio-cms-add-client',
   standalone: true,
@@ -13,11 +15,10 @@ import { Router } from "@angular/router";
 export class AddClientComponent {
   clientForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private client: ClientService,
-    private router: Router
-              ) {
+  constructor(private fb: FormBuilder,
+              private client: ClientService,
+              private router: Router
+  ) {
 
     this.clientForm = this.fb.group({
       firstName: ["", Validators.required],
@@ -27,9 +28,8 @@ export class AddClientComponent {
       condition: ["", Validators.required],
       status: ["", Validators.required],
       weight: ["", Validators.required],
+      report: ["", Validators.required],
     })
-
-
   }
 
   cancel() {
@@ -37,11 +37,11 @@ export class AddClientComponent {
   }
 
   onSubmit() {
+    console.log("Form submitted", this.clientForm.value);
     this.client.addClient(this.clientForm.value).subscribe(
       response => {
         this.router.navigate(['/home']);
       }
-
     )
   }
 

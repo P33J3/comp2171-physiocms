@@ -1,3 +1,4 @@
+
 export interface Client {
   id: number;
   firstName: string;
@@ -7,4 +8,5 @@ export interface Client {
   condition: string;
   status: string;
   weight: number;
+  report: string;
 }
