@@ -4,8 +4,12 @@ import cors from 'cors'
 const app = express();
 app.use(express.json());
 app.use(cors());
+import {google} from 'googleapis';
+import dotenv from 'dotenv'
+dotenv.config()
 
 import {addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc} from 'firebase/firestore';
+
 import { clientsRef } from './firebaseConfig.mjs';
 app.get("/", async (req, res) => {
     try {
@@ -79,6 +83,149 @@ app.delete("/delete", async (req, res) => {
         res.send({ msg: "Deleted" });
     } catch (error) {
         console.error('Could not delete client: ', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
+// google config are repeated and can to extract to reusable functions
+
+app.post("/add-calendar-event", async (req, res) => {
+    const data = req.body;
+    const CREDENTIALS = JSON.parse(process.env.GOOGLE_CALENDAR_SERVICE_ACCOUNT)
+    const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID
+    const GOOGLE_PROJECT_ID = process.env.GOOGLE_PROJECT_ID
+    const GOOGLE_CALENDAR_VERSION = process.env.GOOGLE_CALENDAR_VERSION
+    const GOOGLE_API_SCOPES = process.env.GOOGLE_API_SCOPES
+    const GOOGLE_CALENDAR_APPOINTMENT_DURATION = process.env.GOOGLE_CALENDAR_APPOINTMENT_DURATION
+    const GOOGLE_CALENDAR_TIMEZONE = process.env.GOOGLE_CALENDAR_TIMEZONE
+    const SCOPES = [GOOGLE_API_SCOPES];
+
+    const auth = new google.auth.JWT(
+        CREDENTIALS.client_email,
+        null,
+        CREDENTIALS.private_key,
+        SCOPES
+    )
+
+    const calendarEventRequest = {
+        summary: "Appointment for "+data.name,
+        description: data.additionalMessage,
+        start: {
+          dateTime: data.startDate,
+          timeZone: GOOGLE_CALENDAR_TIMEZONE,
+        },
+        end: {
+          dateTime: data.endDate,
+          timeZone: GOOGLE_CALENDAR_TIMEZONE,
+        },
+        attendees: [],
+        reminders: {},
+    };
+
+    const calendar = google.calendar({
+        version: GOOGLE_CALENDAR_VERSION,
+        project: GOOGLE_PROJECT_ID,
+        auth: auth,
+    });
+
+    const response = calendar.events.insert({
+        auth: auth,
+        calendarId: CALENDAR_ID,
+        resource: calendarEventRequest
+     }) 
+
+    res.send({ msg: "Appointment set" });
+})
+
+
+app.get("/get-calendar-events", async (req, res) => {
+    const data = req.body;
+    const CREDENTIALS = JSON.parse(process.env.GOOGLE_CALENDAR_SERVICE_ACCOUNT)
+    const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID
+    const GOOGLE_PROJECT_ID = process.env.GOOGLE_PROJECT_ID
+    const GOOGLE_CALENDAR_VERSION = process.env.GOOGLE_CALENDAR_VERSION
+    const GOOGLE_API_SCOPES = process.env.GOOGLE_API_SCOPES
+    const GOOGLE_CALENDAR_APPOINTMENT_DURATION = process.env.GOOGLE_CALENDAR_APPOINTMENT_DURATION
+    const GOOGLE_CALENDAR_TIMEZONE = process.env.GOOGLE_CALENDAR_TIMEZONE
+    const SCOPES = [GOOGLE_API_SCOPES];
+
+    const auth = new google.auth.JWT(
+        CREDENTIALS.client_email,
+        null,
+        CREDENTIALS.private_key,
+        SCOPES
+    )
+
+    const calendar = google.calendar({
+        version: GOOGLE_CALENDAR_VERSION,
+        project: GOOGLE_PROJECT_ID,
+        auth: auth,
+    });
+
+    const appointmentPromise = new Promise((resolve, reject) => {
+        calendar.events.list(
+          {
+            calendarId: CALENDAR_ID,
+            timeMin: new Date().toISOString(),
+            maxResults: 120,
+            singleEvents: true,
+            orderBy: "startTime",
+          },
+          (error, result) => {
+            if (error) {
+              reject('Internal Server Error');
+            } else {
+              resolve(result.data.items);
+            }
+          }
+        );
+      });
+      appointmentPromise.then((appointments) => {
+        console.log(appointments);
+        res.send(appointments);
+        // Process appointments here
+      })
+      .catch((error) => {
+        res.send({}); // can render error in thje future 
+      });
+})
+
+app.delete("/delete-calendar-event", async (req, res) => {
+    try {
+        const id = req.query.id;
+        if (!id) {
+            res.status(400).send({ error: 'Missing or invalid id parameter' });
+            return;
+        }
+        const CREDENTIALS = JSON.parse(process.env.GOOGLE_CALENDAR_SERVICE_ACCOUNT)
+        const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID
+        const GOOGLE_PROJECT_ID = process.env.GOOGLE_PROJECT_ID
+        const GOOGLE_CALENDAR_VERSION = process.env.GOOGLE_CALENDAR_VERSION
+        const GOOGLE_API_SCOPES = process.env.GOOGLE_API_SCOPES
+        const SCOPES = [GOOGLE_API_SCOPES];
+
+        const auth = new google.auth.JWT(
+            CREDENTIALS.client_email,
+            null,
+            CREDENTIALS.private_key,
+            SCOPES
+        )
+
+        const calendar = google.calendar({
+            version: GOOGLE_CALENDAR_VERSION,
+            project: GOOGLE_PROJECT_ID,
+            auth: auth,
+        });
+
+        const response = calendar.events.delete({
+            auth: auth,
+            calendarId: CALENDAR_ID,
+            eventId: id
+         })     
+
+        res.send({ msg: "Event Deleted" });
+    } catch (error) {
+        console.error('Could not delete event: ', error);
         res.status(500).send({ error: 'Internal Server Error' });
     }
 });

@@ -1,0 +1,52 @@
+<div class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+<div class="bg-white p-8 rounded shadow-md max-w-md w-full">
+
+    <h2 class="text-2xl font-semibold mb-6">Appointment Request Form</h2>
+
+    <!-- Appointment Form -->
+    <form [formGroup]="appointmentForm" novalidate (ngSubmit)="onSubmit()" >
+
+        <input formControlName="clientId" value="test-id" type="hidden" id="name" name="name" class="mt-1 p-2 w-full border rounded-md">
+
+        <!-- Name Input -->
+        <div class="mb-4">
+            <label for="name" class="block text-gray-600 font-medium">Client Name</label>
+            <input formControlName="name" type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md">
+        </div>
+
+        <!-- Date and Time Input -->
+        <div class="mb-4">
+            <label for="datetime" class="block text-gray-600 font-medium">Preferred Date and Time</label>
+            <input formControlName="dateTime" type="datetime-local" id="datetime" name="datetime" class="mt-1 p-2 w-full border rounded-md">
+        </div>
+
+        <div *ngIf="appointmentForm.get('dateTime')?.hasError('required')
+            && appointmentForm.get('dateTime')?.touched" style="color: red">
+            referred Date and Time is required!
+    </div>
+
+
+        <!-- Message Input -->
+        <div class="mb-6">
+            <label for="message" class="block text-gray-600 font-medium">Additional Message</label>
+            <textarea formControlName="additionalMessage" id="message" name="message" rows="4" class="mt-1 p-2 w-full border rounded-md"></textarea>
+        </div>
+
+        <div *ngIf="appointmentForm.get('additionalMessage')?.hasError('required')
+            && appointmentForm.get('additionalMessage')?.touched" style="color: red">
+            Additional Message is required!
+    </div>
+
+
+        <!-- Submit Button -->
+        <button type="submit"
+        [disabled]="!appointmentForm.valid"
+         class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Submit Request</button>
+
+    </form>
+    <!-- End Appointment Form -->
+
+</div>
+
+</div>
