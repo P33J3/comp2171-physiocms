@@ -3,29 +3,39 @@ import {AddClientComponent} from "./components/clients/add-client/add-client.com
 import { EditClientComponent } from "./components/clients/edit-client/edit-client.component";
 import { ClientDetailsComponent } from "./components/clients/client-details/client-details.component";
 import { ClientListComponent } from "./components/clients/client-list/client-list.component";
-import { AddAppointmentComponent } from './add-appointment/add-appointment.component';
-import { ViewAppointmentsComponent } from './view-appointments/view-appointments.component';
+import { AddAppointmentComponent } from './components/add-appointment/add-appointment.component';
+import { ViewAppointmentsComponent } from './components/view-appointments/view-appointments.component';
+import { MainComponent } from "./components/main/main.component";
+import { AuthComponent } from "./auth/auth.component";
 
 export const appRoutes: Route[] = [
     {
         path: '',
-        redirectTo: "/home",
+        redirectTo: "/auth",
         pathMatch: 'full'
     },
     {
+        path: 'auth',
+        component: AuthComponent,
+    },
+    {
         path: 'home',
+        component: MainComponent
+    },
+    {
+        path: 'search-clients',
         component: ClientListComponent
     },
     {
-        path: 'addclient',
+        path: 'add-client',
         component: AddClientComponent
     },
     {
-        path: 'getclient/:id',
+        path: 'get-client/:id',
         component: EditClientComponent
     },
     {
-        path: 'viewclient/:id',
+        path: 'view-client/:id',
         component: ClientDetailsComponent
     },
     {

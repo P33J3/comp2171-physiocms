@@ -16,7 +16,7 @@ node_modules
 *.launch
 .settings/
 *.sublime-workspace
-.env
+.env.example
 
 # IDE - VSCode
 .vscode/*
@@ -34,7 +34,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-.env
+.env.example
 environment.mjs
 environment.app.ts
 

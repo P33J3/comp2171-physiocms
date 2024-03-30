@@ -2,9 +2,9 @@ import {Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import { Router } from "@angular/router";
-import { AppointmentService } from '../services/appointment/appointment.service';
+import { AppointmentService } from '../../services/appointment/appointment.service';
 import { GoogleApis, google, Auth } from 'googleapis';
-import * as environment  from '../../../environment.app';
+import * as environment  from '../../../../environment.app';
 
 
 
@@ -35,7 +35,7 @@ export class AddAppointmentComponent {
 
   }
 
-  
+
 
   cancel() {
     this.router.navigate(['/home']);

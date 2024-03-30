@@ -8,12 +8,13 @@ import { ClientService } from './services/client/client.service';
 import { AddClientComponent } from "./components/clients/add-client/add-client.component";
 import { EditClientComponent } from "./components/clients/edit-client/edit-client.component";
 import { ClientListComponent } from "./components/clients/client-list/client-list.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AuthComponent } from './auth/auth.component';
+import { initializeApp } from 'firebase/app';
+import { environment } from "../../environment.app";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent, AuthComponent],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
@@ -21,11 +22,15 @@ import { FormsModule } from "@angular/forms";
     HttpClientModule,
     AddClientComponent,
     EditClientComponent,
-    ClientListComponent
+    ClientListComponent,
+    ReactiveFormsModule,
   ],
-  providers: [
-    ClientService,
-  ],
+  providers: [ClientService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    initializeApp(environment.firebaseConfig);
+  }
+
+}

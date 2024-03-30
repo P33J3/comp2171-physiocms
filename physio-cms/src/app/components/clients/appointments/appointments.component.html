@@ -2,15 +2,14 @@
 
 <div class="patient-progress-container">
     <label for="totalAppointments">Total Appointments:</label>
-    <input type="number" id="totalAppointments" [(ngModel)]="totalAppointments" (change)="updateProgress()" />
-  
+    <input type="number" id="totalAppointments" />
+
     <label for="attendedAppointments">Attended Appointments:</label>
-    <input type="number" id="attendedAppointments" [(ngModel)]="attendedAppointments" (change)="updateProgress()" />
-  
+    <input type="number" id="attendedAppointments"  />
+
     <div class="progress-bar">
       <div [style.width.%]="progress" class="progress"></div>
     </div>
-  
+
     <p>Progress: {{ progress.toFixed(2) }}%</p>
   </div>
-  
