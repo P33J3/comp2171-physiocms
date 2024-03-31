@@ -7,20 +7,16 @@ app.use(cors());
 import {google} from 'googleapis';
 import dotenv from 'dotenv'
 dotenv.config()
+const path = require('path');
 
 import {addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc} from 'firebase/firestore';
 
 import { clientsRef } from './firebaseConfig.mjs';
 
 const port = process.env.PORT || 3000;
+app.use(express.static(path.join(__dirname, '../dist')));
 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
-    });
-}
 app.get("/", async (req, res) => {
     try {
         const snapshot = await getDocs(clientsRef);
@@ -301,6 +297,10 @@ app.delete("/delete-calendar-event", async (req, res) => {
         console.error('Could not delete event: ', error);
         res.status(500).send({ error: 'Internal Server Error' });
     }
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(9000, () => console.log("Up & running port " + 9000));

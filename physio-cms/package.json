@@ -9,7 +9,8 @@
     "start:server": "node server/server.mjs",
     "build:server": "tsc -p tsconfig.server.json",
     "build:all": "npm run build && npm run build:server",
-    "test": "nx test"
+    "test": "nx test",
+    "heroku-postbuild": "npm run build"
   },
   "private": true,
   "dependencies": {
