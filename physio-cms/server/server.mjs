@@ -7,15 +7,10 @@ app.use(cors());
 import {google} from 'googleapis';
 import dotenv from 'dotenv'
 dotenv.config()
-const path = require('path');
 
 import {addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc} from 'firebase/firestore';
 
 import { clientsRef } from './firebaseConfig.mjs';
-
-const port = process.env.PORT || 3000;
-app.use(express.static(path.join(__dirname, '../dist')));
-
 
 app.get("/", async (req, res) => {
     try {
