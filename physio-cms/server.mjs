@@ -11,7 +11,7 @@ const path = require('path');
 
 import {addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc} from 'firebase/firestore';
 
-import { clientsRef } from './firebaseConfig.mjs';
+import { clientsRef } from './server/firebaseConfig.mjs';
 
 const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, '../dist')));
