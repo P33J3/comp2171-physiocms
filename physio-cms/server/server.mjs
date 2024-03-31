@@ -11,6 +11,16 @@ dotenv.config()
 import {addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc} from 'firebase/firestore';
 
 import { clientsRef } from './firebaseConfig.mjs';
+
+const port = process.env.PORT || 3000;
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
+    });
+}
 app.get("/", async (req, res) => {
     try {
         const snapshot = await getDocs(clientsRef);
