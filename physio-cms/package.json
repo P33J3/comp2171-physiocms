@@ -4,7 +4,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nx serve physio-cms",
+    "start:frontend": "npm start",
+    "start:backend": "cd server && node server.mjs",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "build": "nx build physio-cms",
     "start:server": "node server/server.mjs",
     "build:server": "tsc -p tsconfig.server.json",
