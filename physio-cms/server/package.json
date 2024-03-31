@@ -2,10 +2,10 @@
   "name": "physio-cms-backend",
   "version": "1.0.0",
   "description": "physio-cms backend",
-  "main": "server/server.mjs",
+  "main": "server.mjs",
   "scripts": {
-    "start": "node server/server.mjs",
-    "dev": "nodemon server/server.mjs"
+    "start": "node server.mjs",
+    "dev": "nodemon server.mjs"
   },
   "keywords": [
     "node",
