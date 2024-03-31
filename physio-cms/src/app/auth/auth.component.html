@@ -1,0 +1,47 @@
+<div class="auth-container">
+  <div>
+    <div  *ngIf="error">
+      <p>{{ error }}</p>
+    </div>
+    <!-- <div *ngIf="isLoading" style="text-align: center;">
+      <app-loading-spinner></app-loading-spinner>
+    </div> -->
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+      <div>
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          formControlName="email"
+          required="true"
+          minlength="6"
+        />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          required="true"
+          minlength="6"
+        />
+      </div>
+      <div>
+        <button type="submit" [disabled]="!authForm.valid">
+          {{ isLoginMode ? 'Login' : 'Sign Up' }}
+        </button>
+        <span>|</span>
+        <button (click)="onSwitchMode()" type="button">
+          Switch to {{ isLoginMode ? 'Sign Up' : 'Login' }}
+        </button>
+      </div>
+    </form>
+
+
+
+  </div>
+</div>
