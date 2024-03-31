@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nx serve physio-cms",
+    "start": "nx serve physio-cms node server/server.mjs",
     "build": "nx build physio-cms",
     "start:server": "node server/server.mjs",
     "build:server": "tsc -p tsconfig.server.json",
