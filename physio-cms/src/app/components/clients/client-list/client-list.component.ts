@@ -32,11 +32,11 @@ export class ClientListComponent implements OnInit{
   }
 
   viewClient(id: any) {
-    this.router.navigate([`/viewclient/${id}`])
+    this.router.navigate([`/view-client/${id}`])
   }
 
   addClientView() {
-    this.router.navigate([`/addclient`])
+    this.router.navigate([`/add-client`])
   }
 
   applyFilter() {

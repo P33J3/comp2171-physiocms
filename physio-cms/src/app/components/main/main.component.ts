@@ -26,4 +26,9 @@ export class MainComponent {
     // Implement navigation to the view appointments page
     this.router.navigate(['/view-appointments']);
   }
+
+  viewCalendar() {
+    // Implement navigation to the view appointments page
+    this.router.navigate(['/calendar']);
+  }
 }

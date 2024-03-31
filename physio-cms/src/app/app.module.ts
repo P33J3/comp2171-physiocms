@@ -12,9 +12,11 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthComponent } from './auth/auth.component';
 import { initializeApp } from 'firebase/app';
 import { environment } from "../../environment.app";
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { FullCalendarModule } from "@fullcalendar/angular";
 
 @NgModule({
-  declarations: [AppComponent, AuthComponent],
+  declarations: [AppComponent, AuthComponent, CalendarComponent],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
@@ -24,6 +26,7 @@ import { environment } from "../../environment.app";
     EditClientComponent,
     ClientListComponent,
     ReactiveFormsModule,
+    FullCalendarModule,
   ],
   providers: [ClientService],
   bootstrap: [AppComponent],
@@ -32,5 +35,4 @@ export class AppModule {
   constructor() {
     initializeApp(environment.firebaseConfig);
   }
-
 }

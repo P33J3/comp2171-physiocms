@@ -7,6 +7,7 @@ import { AddAppointmentComponent } from './components/add-appointment/add-appoin
 import { ViewAppointmentsComponent } from './components/view-appointments/view-appointments.component';
 import { MainComponent } from "./components/main/main.component";
 import { AuthComponent } from "./auth/auth.component";
+import { CalendarComponent } from "./components/calendar/calendar.component";
 
 export const appRoutes: Route[] = [
     {
@@ -45,5 +46,9 @@ export const appRoutes: Route[] = [
     {
         path: 'view-appointments',
         component: ViewAppointmentsComponent
+    },
+    {
+        path: 'calendar',
+        component: CalendarComponent
     }
 ];

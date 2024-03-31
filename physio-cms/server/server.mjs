@@ -44,6 +44,35 @@ app.get("/getclient", async (req, res) => {
     }
 });
 
+app.get("/clients/searchbyname", async (req, res) => {
+    try {
+        const firstName = req.query.firstName;
+        const lastName = req.query.lastName;
+
+        if (!firstName || !lastName) {
+            return res.status(400).send({ error: 'First Name and Last Name are required' });
+        }
+
+        const clientSnapshot = await getDocs(collection(db, "clients"), {
+            where: {
+                firstName: firstName,
+                lastName: lastName
+            }
+        });
+
+        const clientIds = clientSnapshot.docs.map(doc => doc.id);
+
+        if (clientIds.length > 0) {
+            res.send({ id: clientIds[0] });
+        } else {
+            res.status(404).send({ error: 'Client not found' });
+        }
+    } catch (error) {
+        console.error('Could not get client ID: ', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
 app.post("/addclient", async (req, res) => {
     try {
         const data = req.body;
@@ -86,6 +115,40 @@ app.delete("/delete", async (req, res) => {
         res.status(500).send({ error: 'Internal Server Error' });
     }
 });
+
+app.get('/events', async (req, res) => {
+    try {
+        const eventsSnapshot = await db.collection('calendar').get();
+        const events = eventsSnapshot.docs.map(doc => doc.data());
+        res.json(events);
+    } catch (error) {
+        console.error('Error fetching events:', error);
+        res.status(500).json({ error: 'Error fetching events' });
+    }
+});
+
+app.post('/events', async (req, res) => {
+    try {
+        const eventData = req.body;
+        const docRef = await db.collection('calendar').add(eventData);
+        res.json({ id: docRef.id });
+    } catch (error) {
+        console.error('Error adding event:', error);
+        res.status(500).json({ error: 'Error adding event' });
+    }
+});
+
+app.delete('/events/:eventId', async (req, res) => {
+    try {
+        const { eventId } = req.params;
+        await db.collection('calendar').doc(eventId).delete();
+        res.sendStatus(200);
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        res.status(500).json({ error: 'Error deleting event' });
+    }
+});
+
 
 // google config are repeated and can to extract to reusable functions
 
@@ -132,7 +195,7 @@ app.post("/add-calendar-event", async (req, res) => {
         auth: auth,
         calendarId: CALENDAR_ID,
         resource: calendarEventRequest
-     }) 
+     })
 
     res.send({ msg: "Appointment set" });
 })
@@ -186,7 +249,7 @@ app.get("/get-calendar-events", async (req, res) => {
         // Process appointments here
       })
       .catch((error) => {
-        res.send({}); // can render error in thje future 
+        res.send({}); // can render error in thje future
       });
 })
 
@@ -221,7 +284,7 @@ app.delete("/delete-calendar-event", async (req, res) => {
             auth: auth,
             calendarId: CALENDAR_ID,
             eventId: id
-         })     
+         })
 
         res.send({ msg: "Event Deleted" });
     } catch (error) {
