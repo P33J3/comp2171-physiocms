@@ -4,8 +4,8 @@
   "description": "physio-cms backend",
   "main": "server/server.mjs",
   "scripts": {
-    "start": "node server.mjs",
-    "dev": "nodemon server.mjs"
+    "start":"node server/server.mjs",
+    "dev": "nodemon server/server.mjs"
   },
   "keywords": [
     "node",
