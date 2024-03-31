@@ -1,0 +1,26 @@
+{
+  "name": "physio-cms-backend",
+  "version": "1.0.0",
+  "description": "physio-cms backend",
+  "main": "server/server.mjs",
+  "scripts": {
+    "start": "node server/server.mjs",
+    "dev": "nodemon server/server.mjs"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "firebase",
+    "googleapis"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "firebase": "^9.6.6",
+    "googleapis": "^87.1.0",
+    "nodemon": "^2.0.15"
+  }
+}
