@@ -35,8 +35,9 @@ yarn-error.log
 testem.log
 /typings
 .env.example
-environment.mjs
-environment.app.ts
+.environment.mjs
+.environment.app.ts
+../physio-cms-backend-firebase-adminsdk-gfftx-f514aebb12.json
 
 # System Files
 .DS_Store

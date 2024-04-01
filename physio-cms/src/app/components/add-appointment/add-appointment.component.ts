@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import { Router } from "@angular/router";
 import { AppointmentService } from '../../services/appointment/appointment.service';
 import { GoogleApis, google, Auth } from 'googleapis';
-import * as environment  from '../../../../environment.app';
+import * as environment  from '../../../../.environment.app';
 
 
 

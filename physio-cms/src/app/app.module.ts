@@ -11,7 +11,7 @@ import { ClientListComponent } from "./components/clients/client-list/client-lis
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthComponent } from './auth/auth.component';
 import { initializeApp } from 'firebase/app';
-import { environment } from "../../environment.app";
+import { environment } from "../../.environment.app";
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { FullCalendarModule } from "@fullcalendar/angular";
 

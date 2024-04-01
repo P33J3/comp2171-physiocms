@@ -8,14 +8,47 @@ import {google} from 'googleapis';
 import dotenv from 'dotenv'
 dotenv.config()
 
-import {addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc} from 'firebase/firestore';
+import {addDoc, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc} from 'firebase/firestore';
 
-import { clientsRef } from './firebaseConfig.mjs';
+import { calendarRef, clientsRef } from "./firebaseConfig.mjs";
+// import { environment } from "../.environment.mjs";
+// const admin = require('firevase-admin');
+// const serviceAccount=require(environment.firebaseConfig.serviceKey);
+// admin.initializeApp({credential:admin.credential.cert(serviceAccount)});
 
-app.get("/", async (req, res) => {
+// app.get("/", async (req, res) => {
+//     try {
+//         const snapshot = await getDocs(clientsRef);
+//         let clientList =  snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+//         res.send(clientList);
+//     } catch (error) {
+//         console.error('Could not get clients: ', error);
+//         res.status(500).send({ error: 'Internal Server Error' });
+//     }
+// });
+
+app.get("/search-clients", async (req, res) => {
     try {
         const snapshot = await getDocs(clientsRef);
-        let clientList =  snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        let clientList =  snapshot.docs.map(async (doc) => {
+            let startDates=[];
+            const clientData = { id: doc.id, ...doc.data() };
+            // Fetch start from calendar collection
+            const calendarSnapshot = await getDocs(calendarRef);
+            if (!calendarSnapshot.empty) {
+                calendarSnapshot.forEach(calendarDoc => {
+                    const clientInCalendar = calendarDoc.data().client;
+                    if (clientInCalendar && clientInCalendar.id === doc.id) {
+                        const starts = calendarDoc.data().start;
+                        startDates.push(starts);
+                    }
+                });
+            }
+            clientData.start = startDates;
+            return clientData;
+        });
+        // Resolve all promises in the clientList array
+        clientList = await Promise.all(clientList);
         res.send(clientList);
     } catch (error) {
         console.error('Could not get clients: ', error);
@@ -25,7 +58,6 @@ app.get("/", async (req, res) => {
 
 app.get("/getclient", async (req, res) => {
     try {
-        let client;
         const id = req.query.id;
         if (!id) {
             return res.status(400).send({ error: 'Client ID is required' });
@@ -34,10 +66,25 @@ app.get("/getclient", async (req, res) => {
         const clientRefFull = doc(clientsRef, id);
         const snapshot = await getDoc(clientRefFull);
 
-        if (snapshot.exists()) {
-            client = { id: doc.id, ...snapshot.data() };
+        if (!snapshot.exists()) {
+            return res.status(404).send({ error: 'Client not found' });
         }
 
+        let client = { id: snapshot.id, ...snapshot.data() };
+        let startDates = [];
+
+
+        const calendarSnapshot = await getDocs(calendarRef);
+        if (!calendarSnapshot.empty) {
+            calendarSnapshot.forEach(calendarDoc => {
+                const clientInCalendar = calendarDoc.data().client;
+                if (clientInCalendar && clientInCalendar.id === client.id) {
+                    const starts = calendarDoc.data().start;
+                    startDates.push(starts); // Push each start date individually
+                }
+            });
+        }
+        client.start = startDates;
         res.send(client);
     } catch (error) {
         console.error('Could not get client: ', error);
@@ -54,17 +101,15 @@ app.get("/clients/searchbyname", async (req, res) => {
             return res.status(400).send({ error: 'First Name and Last Name are required' });
         }
 
-        const clientSnapshot = await getDocs(collection(db, "clients"), {
-            where: {
-                firstName: firstName,
-                lastName: lastName
-            }
-        });
+        // const clientsRef = collection(db, 'clients');
+        const q = query(clientsRef,
+          where('firstName', '==', firstName),
+          where('lastName', '==', lastName));
+        const clientSnapshot = await getDocs(q);
 
-        const clientIds = clientSnapshot.docs.map(doc => doc.id);
-
-        if (clientIds.length > 0) {
-            res.send({ id: clientIds[0] });
+        if (!clientSnapshot.empty) {
+            const clientId = clientSnapshot.docs[0].id;
+            res.send({ id: clientId });
         } else {
             res.status(404).send({ error: 'Client not found' });
         }
@@ -119,9 +164,9 @@ app.delete("/delete", async (req, res) => {
 
 app.get('/events', async (req, res) => {
     try {
-        const eventsSnapshot = await db.collection('calendar').get();
-        const events = eventsSnapshot.docs.map(doc => doc.data());
-        res.json(events);
+        const eventsSnapshot =await getDocs(calendarRef);
+        const events = eventsSnapshot.docs.map(doc => doc.data()) || [];
+        res.send(events);
     } catch (error) {
         console.error('Error fetching events:', error);
         res.status(500).json({ error: 'Error fetching events' });
@@ -131,19 +176,29 @@ app.get('/events', async (req, res) => {
 app.post('/events', async (req, res) => {
     try {
         const eventData = req.body;
-        const docRef = await db.collection('calendar').add(eventData);
-        res.json({ id: docRef.id });
+        const docRef = await addDoc(calendarRef,eventData);
+        res.send({ id: docRef.id });
     } catch (error) {
         console.error('Error adding event:', error);
         res.status(500).json({ error: 'Error adding event' });
     }
 });
 
-app.delete('/events/:eventId', async (req, res) => {
+app.delete('/events/:startStr', async (req, res) => {
     try {
-        const { eventId } = req.params;
-        await db.collection('calendar').doc(eventId).delete();
-        res.sendStatus(200);
+        const { startStr } = req.params;
+        const q = query(calendarRef, where('start', '==', startStr));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const document = querySnapshot.docs[0];
+            const docId = document.id;
+            await deleteDoc(doc(calendarRef, docId));
+            res.send({ msg: "Deleted" });
+            // res.send(docId)
+        } else {
+            res.status(404).json({ error: 'Event not found' });
+        }
     } catch (error) {
         console.error('Error deleting event:', error);
         res.status(500).json({ error: 'Error deleting event' });

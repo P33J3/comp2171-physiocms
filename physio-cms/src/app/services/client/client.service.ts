@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import * as environment  from '../../../../environment.app';
+import * as environment  from '../../../../.environment.app';
 import { Observable } from "rxjs";
 import { Client } from "../../models/client.model";
 
@@ -22,7 +22,7 @@ export class ClientService {
   }
 
   allClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(environment.localhost + `/`);
+    return this.http.get<Client[]>(environment.localhost + `/search-clients`);
   }
 
   updateClient(id:any, data:Client) {

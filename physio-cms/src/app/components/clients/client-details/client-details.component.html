@@ -8,6 +8,10 @@
     <p>Condition: {{clientData.condition}}</p>
     <p>Patient Status: {{clientData.status}}</p>
     <p>Weight (lbs): {{clientData.weight}}</p>
+    <p>Dates: </p>
+    <span *ngFor="let date of clientData.start">
+            {{date}}
+          </span>
     <p>Report (Short Description Of Client Ailment): {{clientData.report}}</p>
 
     <button (click)="deleteClient()">Delete Client</button>

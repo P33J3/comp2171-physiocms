@@ -7,5 +7,7 @@
     "allowJs": true
   },
   "include": ["server/**/*.mjs"],
-  "exclude": ["./dist/server/**/*", "jest.config.ts", "server/**/*.test.ts", "server/**/*.spec.ts", "environment.mjs"]
+  "exclude": ["./dist/server/**/*", "jest.config.ts", "server/**/*.test.ts", "server/**/*.spec.ts",
+    ".environment.mjs"
+  ]
 }

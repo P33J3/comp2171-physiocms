@@ -1,13 +1,16 @@
-import { Component, ChangeDetectorRef, OnInit } from "@angular/core";
+import { Component, ChangeDetectorRef, OnInit, ViewChild } from "@angular/core";
 
-import { environment} from "../../../../environment.app";
+import { environment} from "../../../../.environment.app";
 import { HttpClient } from "@angular/common/http";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventRemoveArg } from "@fullcalendar/core";
-import { Observable } from "rxjs";
+import { map, Observable, throwError } from "rxjs";
+import { FullCalendarComponent } from "@fullcalendar/angular";
+import { catchError } from "rxjs/operators";
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'physio-cms-calendar',
@@ -15,22 +18,36 @@ import { Observable } from "rxjs";
   styleUrl: './calendar.component.css',
 })
 export class CalendarComponent implements OnInit {
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
   calendarVisible = true;
   events: any[] = [];
+  // clientIDtag: string = '';
+  // eventObject = {};
   eventGuid = 0;
-  createEventId() {
-    return String(this.eventGuid++);
+  generateUUID(): string {
+    return uuidv4();
   }
+
   calendarOptions: CalendarOptions = {
-    plugins: [interactionPlugin, dayGridPlugin,timeGridPlugin,
-      listPlugin,],
+    plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
     },
     initialView: 'dayGridMonth',
-    initialEvents: this.events, // alternatively, use the `events` setting to fetch from a feed
+    initialEvents: [],
+    events: (fetchInfo, successCallback, failureCallback) => {
+      this.fetchEvents().subscribe(
+        (events) => {
+          successCallback(events);
+        },
+        (error) => {
+          console.error('Error fetching events:', error);
+          failureCallback(error);
+        }
+      );
+    },
     weekends: true,
     editable: true,
     selectable: true,
@@ -39,10 +56,9 @@ export class CalendarComponent implements OnInit {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    eventAdd: this.addEvent.bind(this),
+    // eventAdd: this.addEvent.bind(this),
     // eventChange:
-    eventRemove: this.deleteEvent.bind(this)
-
+    // eventRemove: this.deleteEvent.bind(this),
   };
   currentEvents: EventApi[] = [];
 
@@ -52,9 +68,21 @@ export class CalendarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('ngOnInit called');
     this.fetchEvents();
   }
 
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit called');
+    this.calendarOptions.initialEvents = this.events;
+    this.changeDetector.detectChanges();
+    console.log('initial events', this.calendarOptions.initialEvents);
+  }
+
+  createEventId() {
+    this.eventGuid += 1;
+    return String(this.eventGuid);
+  }
   handleCalendarToggle() {
     this.calendarVisible = !this.calendarVisible;
   }
@@ -64,7 +92,6 @@ export class CalendarComponent implements OnInit {
     calendarOptions.weekends = !calendarOptions.weekends;
   }
 
-
   async handleDateSelect(selectInfo: DateSelectArg) {
     const title = prompt('Please enter a new title for your event');
     const calendarApi = selectInfo.view.calendar;
@@ -73,44 +100,53 @@ export class CalendarComponent implements OnInit {
     let clientFirstName: string = '';
     let clientLastName: string = '';
     let clientId: Observable<{ id: string }> | null = null;
+    // let eventObject = {};
 
     if (title) {
-
-
       while (!clientId) {
         clientFirstName = <string>prompt('Enter client first name:');
         clientLastName = <string>prompt('Enter client last name:');
         clientId = await this.getClientId(clientFirstName, clientLastName);
+        if (clientId) {
+          clientId.subscribe({
+            next: (clientIdData) => {
+              console.log('returned obs', clientIdData);
+              const clientIDtag = String(clientIdData.id);
+              console.log('assigned id', clientIDtag);
+              console.log(
+                'calendar selection',
+                selectInfo.startStr,
+                selectInfo.endStr
+              );
+              const eventObject = {
+                id: String(this.generateUUID()),
+                title,
+                start: selectInfo.startStr,
+                end: selectInfo.endStr,
+                // allDay: selectInfo.allDay,
+                client: {
+                  firstName: clientFirstName,
+                  lastName: clientLastName,
+                  clientID: clientIDtag,
+                },
+              };
+              console.log('eventObject', eventObject);
+              calendarApi.addEvent(eventObject);
+              this.addEvent(eventObject);
+            },
+            error: (error) => {
+              console.error('Error fetching client ID:', error);
+            },
+          });
+        } else {
+          console.error('No client ID returned');
+        }
         if (!clientId) {
-          alert('Client not found. Please try again or enter a different name.');
+          alert(
+            'Client not found. Please try again or enter a different name.'
+          );
         }
       }
-
-      calendarApi.addEvent({
-        id: this.createEventId(),
-        title,
-        // start: selectInfo.startStr,
-        // end: selectInfo.endStr,
-        // allDay: selectInfo.allDay,
-        client: {
-          firstName: clientFirstName,
-          lastName: clientLastName,
-          id: clientId
-        }
-      });
-
-      // Call function to save event to database with clientId
-      this.addEvent({
-        title,
-        // start: selectInfo.startStr,
-        // end: selectInfo.endStr,
-        // allDay: selectInfo.allDay,
-        client: {
-          firstName: clientFirstName,
-          lastName: clientLastName,
-          id: clientId
-        }
-      });
     }
   }
 
@@ -121,6 +157,7 @@ export class CalendarComponent implements OnInit {
       )
     ) {
       clickInfo.event.remove();
+      this.deleteEvent(clickInfo.event.startStr);
     }
   }
 
@@ -129,39 +166,53 @@ export class CalendarComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  fetchEvents(): void {
-    this.http.get<any[]>(environment.localhost + '/events').subscribe(
-      (events) => {
-        this.events = events.map((event) => ({
+  fetchEvents(): Observable<any[]> {
+    console.log('fetchEvents called');
+    return this.http.get<any[]>(environment.localhost + '/events').pipe(
+      map((events) => {
+        console.log('Events received:', events);
+        return events.map((event) => ({
           id: event.id,
           title: `${event.title} - ${event.client.firstName} ${event.client.lastName}`,
-          // start: event.start,
-          // end: event.end,
+          start: event.start,
+          end: event.end,
         }));
-      },
-      (error) => {
+      }),
+      catchError((error) => {
         console.error('Error fetching events:', error);
-      }
+        return throwError(error);
+      })
     );
+    // console.log('Transformed events:', this.events);
+    //
+    // this.calendarOptions.initialEvents = this.events;
+    // this.changeDetector.detectChanges(); // Trigger change detection
+    // this.calendarComponent?.getApi().refetchEvents();
+    // console.log('Initial events set:', this.calendarOptions.initialEvents);
   }
 
   addEvent(eventData: any): void {
-    this.http.post<any>(environment.localhost + '/events', {...eventData}).subscribe(
-      (response) => {
-        console.log('Event added:', response);
-        // Fetch events again to update calendar
-        this.fetchEvents();
-      },
-      (error) => {
-        console.error('Error adding event:', error);
-      }
-    );
+    this.http
+      .post<any>(environment.localhost + '/events', { ...eventData })
+      .subscribe(
+        (response) => {
+          console.log('Event added:', response);
+          // Fetch events again to update calendar
+          // this.fetchEvents();
+          // this.changeDetector.detectChanges(); // Trigger change detection
+          // this.calendarComponent?.getApi().refetchEvents();
+        },
+        (error) => {
+          console.error('Error adding event:', error);
+        }
+      );
   }
 
-  deleteEvent(eventId: EventRemoveArg): void {
-    this.http.delete(`http://localhost:3000/events/${eventId}`).subscribe(
+  deleteEvent(startStr: string): void {
+    // const eventTitle = eventFullTitle.split(" - ")[0].trim();
+    this.http.delete(environment.localhost + `/events/${startStr}`).subscribe(
       () => {
-        console.log('Event deleted:', eventId);
+        console.log('Event deleted:', startStr);
         // Fetch events again to update calendar
         this.fetchEvents();
       },
@@ -171,16 +222,21 @@ export class CalendarComponent implements OnInit {
     );
   }
 
-  async getClientId(firstName: string, lastName: string): Promise<Observable<{ id: string }>| null> {
-    const url = environment.localhost + "/clients/searchbyname";
+  async getClientId(
+    firstName: string,
+    lastName: string
+  ): Promise<Observable<{ id: string }> | null> {
+    const url = environment.localhost + '/clients/searchbyname';
 
     const params = {
       firstName,
-      lastName
+      lastName,
     };
 
     try {
-      const response: Observable<{ id: string }> = this.http.get<{ id: string }>(url, { params });
+      const response: Observable<{ id: string }> = this.http.get<{
+        id: string;
+      }>(url, { params });
       if (response) {
         return response;
       } else {
@@ -191,5 +247,4 @@ export class CalendarComponent implements OnInit {
       return null;
     }
   }
-
 }

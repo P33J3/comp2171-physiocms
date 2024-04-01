@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
-import { environment } from "../../../environment.app";
+import { environment } from "../../../.environment.app";
 import { User } from './user.model';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithCustomToken, } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
@@ -79,7 +79,7 @@ export class AuthService {
       );
   }
   autoLogin() {
-    const userDataJSON = localStorage.getItem('userData');
+    const userDataJSON = localStorage.getItem('physioCMSuserData');
     if (!userDataJSON) {
       return;
     }
@@ -116,7 +116,7 @@ export class AuthService {
   logout() {
     this.user.next(ANONYMOUS_USER);
     this.router.navigate(['/auth']).then(r => r);
-    localStorage.removeItem('userData');
+    localStorage.removeItem('physioCMSuserData');
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
@@ -143,7 +143,7 @@ export class AuthService {
     this.user.next(user);
     const expirationDuration = expirationDate.getTime() - new Date().getTime();
     this.autoLogout(expirationDuration);
-    localStorage.setItem('userData', JSON.stringify(user));
+    localStorage.setItem('physioCMSuserData', JSON.stringify(user));
     this.router.navigate(['/home']);
   }
 

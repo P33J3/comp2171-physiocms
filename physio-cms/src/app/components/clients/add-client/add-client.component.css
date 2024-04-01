@@ -4,7 +4,7 @@ body {
     padding: 0;
     font-family: 'Arial',serif;
     background: rgb(238,174,202);
-    background: linear-gradient(45deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);    
+    background: linear-gradient(45deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
     background-size: cover;
     background-position: center;
     color: #ffffff;
@@ -74,16 +74,16 @@ textarea {
     display: inline-block;
     margin-right: 10px; /* Adjust the margin as needed */
   }
-  
+
   .form-group.gender input[type="radio"] {
     display: inline-block;
   }
-  
+
   .form-group.gender div {
     display: inline-block;
     margin-left: 10px; /* Adjust the margin as needed */
   }
-  
+
 
 button {
     background-color: #4caf50;
@@ -101,4 +101,11 @@ button:hover {
 
 textarea {
     resize: vertical;
+}
+
+.input-error {
+    border: 1px solid red; /* Add a red border to indicate an error */
+}
+.error-message {
+    color: red; /* Set the error message color to red */
 }

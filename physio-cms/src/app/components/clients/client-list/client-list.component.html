@@ -15,6 +15,10 @@
           <p>Condition: {{client.condition}}</p>
           <p>Patient Status: {{client.status}}</p>
           <p>Weight (lbs): {{client.weight}}</p>
+          <p>Dates: </p>
+          <span *ngFor="let date of client.start">
+            {{date}}
+          </span>
           <p>Report (Short Description Of Client Ailment): {{client.report}}</p>
 
           <button (click)="viewClient(client.id)">View Client</button>

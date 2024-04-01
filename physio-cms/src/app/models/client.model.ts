@@ -7,6 +7,7 @@ export interface Client {
   gender: string;
   condition: string;
   status: string;
+  start: string[];
   weight: number;
   report: string;
 }

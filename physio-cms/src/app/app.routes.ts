@@ -8,6 +8,7 @@ import { ViewAppointmentsComponent } from './components/view-appointments/view-a
 import { MainComponent } from "./components/main/main.component";
 import { AuthComponent } from "./auth/auth.component";
 import { CalendarComponent } from "./components/calendar/calendar.component";
+import { AuthGuard } from "./auth/auth.guard";
 
 export const appRoutes: Route[] = [
     {
@@ -21,34 +22,42 @@ export const appRoutes: Route[] = [
     },
     {
         path: 'home',
-        component: MainComponent
+        component: MainComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'search-clients',
-        component: ClientListComponent
+        component: ClientListComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'add-client',
-        component: AddClientComponent
+        component: AddClientComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'get-client/:id',
-        component: EditClientComponent
+        component: EditClientComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'view-client/:id',
-        component: ClientDetailsComponent
+        component: ClientDetailsComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'add-appointment',
-        component: AddAppointmentComponent
+        component: AddAppointmentComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'view-appointments',
-        component: ViewAppointmentsComponent
+        component: ViewAppointmentsComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'calendar',
-        component: CalendarComponent
+        component: CalendarComponent,
+        canActivate: [AuthGuard]
     }
 ];

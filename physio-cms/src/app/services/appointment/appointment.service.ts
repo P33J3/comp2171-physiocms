@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import * as environment  from '../../../../environment.app';
+import * as environment  from '../../../../.environment.app';
 import { Observable } from "rxjs";
 import { Appointment } from 'src/app/models/appointment.model';
 
@@ -30,7 +30,7 @@ export class AppointmentService {
     const offsetHours = String(Math.floor(date.getTimezoneOffset() / 60)).padStart(2, '0');
     const offsetMinutes = String(date.getTimezoneOffset() % 60).padStart(2, '0');
     const offsetSign = date.getTimezoneOffset() > 0 ? '-' : '+';
-  
+
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${offsetSign}${offsetHours}:${offsetMinutes}`;
   }
 
