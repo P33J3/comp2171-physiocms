@@ -1,6 +1,6 @@
 
-export const localhost = 'http://localhost:9000';
-// export const localhost = 'https://comp2140-physiocms-service.onrender.com';
+// export const localhost = 'http://localhost:9000';
+export const localhost = 'https://comp2140-physiocms-service.onrender.com';
 
 const apiKey= "AIzaSyA6_f4v7_xcONz7pNHShi0g8kMJBBMTvWA";
 const authDomain= "physio-cms-backend.firebaseapp.com";
