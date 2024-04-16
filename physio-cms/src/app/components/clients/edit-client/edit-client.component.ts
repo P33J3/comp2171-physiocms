@@ -60,8 +60,18 @@ export class EditClientComponent implements OnInit{
   }
 
   onSubmit() {
-
-    this.client.updateClient(this.id, this.clientForm.value).subscribe(
+    const formValues = this.clientForm.value;
+    const lowerCaseFormValues = {
+      firstName: formValues.firstName.toLowerCase(),
+      lastName: formValues.lastName.toLowerCase(),
+      age: formValues.age,
+      gender: formValues.gender,
+      condition: formValues.condition,
+      status: formValues.status,
+      weight: formValues.weight,
+      report: formValues.report,
+    }
+    this.client.updateClient(this.id, lowerCaseFormValues).subscribe(
       response => {
         this.router.navigate(['/home']);
 

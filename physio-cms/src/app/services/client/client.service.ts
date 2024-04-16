@@ -13,7 +13,7 @@ export class ClientService {
     private http: HttpClient
   ) { }
 
-  addClient(data:Client) {
+  addClient(data:{}) {
     return this.http.post(environment.localhost + '/addclient', { ...data });
   }
 
@@ -25,7 +25,7 @@ export class ClientService {
     return this.http.get<Client[]>(environment.localhost + `/search-clients`);
   }
 
-  updateClient(id:any, data:Client) {
+  updateClient(id:any, data:{}) {
     return this.http.post(environment.localhost + `/update?id=${id}`,
       { ...data, id:id});
   }

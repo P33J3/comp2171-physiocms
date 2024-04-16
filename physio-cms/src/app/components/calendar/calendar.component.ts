@@ -106,18 +106,18 @@ export class CalendarComponent implements OnInit {
       while (!clientId) {
         clientFirstName = <string>prompt('Enter client first name:');
         clientLastName = <string>prompt('Enter client last name:');
-        clientId = await this.getClientId(clientFirstName, clientLastName);
+        clientId = await this.getClientId(clientFirstName.toLowerCase(), clientLastName.toLowerCase());
         if (clientId) {
           clientId.subscribe({
             next: (clientIdData) => {
-              console.log('returned obs', clientIdData);
+              // console.log('returned obs', clientIdData);
               const clientIDtag = String(clientIdData.id);
-              console.log('assigned id', clientIDtag);
-              console.log(
-                'calendar selection',
-                selectInfo.startStr,
-                selectInfo.endStr
-              );
+              // console.log('assigned id', clientIDtag);
+              // console.log(
+              //   'calendar selection',
+              //   selectInfo.startStr,
+              //   selectInfo.endStr
+              // );
               const eventObject = {
                 id: String(this.generateUUID()),
                 title,
@@ -130,7 +130,7 @@ export class CalendarComponent implements OnInit {
                   clientID: clientIDtag,
                 },
               };
-              console.log('eventObject', eventObject);
+              // console.log('eventObject', eventObject);
               calendarApi.addEvent(eventObject);
               this.addEvent(eventObject);
             },

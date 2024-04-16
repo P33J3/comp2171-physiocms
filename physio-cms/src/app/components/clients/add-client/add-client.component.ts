@@ -37,8 +37,19 @@ export class AddClientComponent {
   }
 
   onSubmit() {
-    console.log("Form submitted", this.clientForm.value);
-    this.client.addClient(this.clientForm.value).subscribe(
+    // console.log("Form submitted", this.clientForm.value);\
+    const formValues = this.clientForm.value;
+    const lowerCaseFormValues = {
+      firstName: formValues.firstName.toLowerCase(),
+      lastName: formValues.lastName.toLowerCase(),
+      age: formValues.age,
+      gender: formValues.gender,
+      condition: formValues.condition,
+      status: formValues.status,
+      weight: formValues.weight,
+      report: formValues.report,
+    }
+    this.client.addClient(lowerCaseFormValues).subscribe(
       response => {
         this.router.navigate(['/home']);
       }
