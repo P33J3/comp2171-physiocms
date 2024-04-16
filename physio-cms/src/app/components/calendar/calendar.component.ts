@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, OnInit, ViewChild } from "@angular/core";
 
 import { environment} from "../../../../.environment.app";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -68,15 +68,15 @@ export class CalendarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('ngOnInit called');
+    // console.log('ngOnInit called');
     this.fetchEvents();
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit called');
+    // console.log('ngAfterViewInit called');
     this.calendarOptions.initialEvents = this.events;
     this.changeDetector.detectChanges();
-    console.log('initial events', this.calendarOptions.initialEvents);
+    // console.log('initial events', this.calendarOptions.initialEvents);
   }
 
   createEventId() {
@@ -135,15 +135,17 @@ export class CalendarComponent implements OnInit {
               this.addEvent(eventObject);
             },
             error: (error) => {
-              console.error('Error fetching client ID:', error);
+              // console.error('Error fetching client ID:', error);
+             alert("Client not found.");
             },
+
           });
         } else {
           console.error('No client ID returned');
         }
         if (!clientId) {
           alert(
-            'Client not found. Please try again or enter a different name.'
+            'Search Failed.'
           );
         }
       }
@@ -167,10 +169,10 @@ export class CalendarComponent implements OnInit {
   }
 
   fetchEvents(): Observable<any[]> {
-    console.log('fetchEvents called');
+    // console.log('fetchEvents called');
     return this.http.get<any[]>(environment.localhost + '/events').pipe(
       map((events) => {
-        console.log('Events received:', events);
+        // console.log('Events received:', events);
         return events.map((event) => ({
           id: event.id,
           title: `${event.title} - ${event.client.firstName} ${event.client.lastName}`,
@@ -196,7 +198,7 @@ export class CalendarComponent implements OnInit {
       .post<any>(environment.localhost + '/events', { ...eventData })
       .subscribe(
         (response) => {
-          console.log('Event added:', response);
+          // console.log('Event added:', response);
           // Fetch events again to update calendar
           // this.fetchEvents();
           // this.changeDetector.detectChanges(); // Trigger change detection
@@ -212,7 +214,7 @@ export class CalendarComponent implements OnInit {
     // const eventTitle = eventFullTitle.split(" - ")[0].trim();
     this.http.delete(environment.localhost + `/events/${startStr}`).subscribe(
       () => {
-        console.log('Event deleted:', startStr);
+        // console.log('Event deleted:', startStr);
         // Fetch events again to update calendar
         this.fetchEvents();
       },
@@ -234,14 +236,12 @@ export class CalendarComponent implements OnInit {
     };
 
     try {
-      const response: Observable<{ id: string }> = this.http.get<{
-        id: string;
-      }>(url, { params });
-      if (response) {
-        return response;
-      } else {
-        return null;
-      }
+      return this.http.get<{ id: string }>(url, { params }).pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error fetching client ID:', error);
+          return throwError('Error fetching client ID');
+        })
+      );
     } catch (error) {
       console.error('Error fetching client ID:', error);
       return null;
