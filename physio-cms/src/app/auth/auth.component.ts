@@ -13,7 +13,7 @@ import { AuthService } from './auth.service';
 export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
-  error: null = null;
+  error: string = '';
   authForm: FormGroup;
 
   constructor(private authService: AuthService, private router: Router) {
@@ -44,13 +44,13 @@ export class AuthComponent {
 
     authObs.subscribe(
       resData => {
-        console.log(resData);
+        // console.log(resData);
         this.isLoading = false;
         this.router.navigate(['/home']);
       },
       errorMessage => {
-        console.log(errorMessage);
-        this.error = errorMessage;
+        // console.log(errorMessage);
+        this.error = 'Invalid Password/Email';
         this.isLoading = false;
       }
     );
