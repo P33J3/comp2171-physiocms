@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" routerLink="/home">Physio-CMS</a>
+<!--  <a class="nav-link" (click)="logout()">Logout</a>-->
   <div class="collapse navbar-collapse" id="navbarNav">
+
     <ul class="navbar-nav ml-auto" *ngIf="isUserSignedIn">
       <li class="nav-item">
         <a class="nav-link" routerLink="/calendar" routerLinkActive="active">Calendar</a>

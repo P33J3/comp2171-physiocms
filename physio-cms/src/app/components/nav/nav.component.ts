@@ -18,6 +18,7 @@ export class NavComponent {
   ngOnInit() {
     this.authService.isLoggedIn$.subscribe((loggedIn: boolean) => {
       this.isUserSignedIn = loggedIn;
+      // console.log('isSignedin', this.isUserSignedIn);
     });
   }
 

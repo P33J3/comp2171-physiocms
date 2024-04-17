@@ -31,6 +31,7 @@ export class EditClientComponent implements OnInit{
       condition: ['', Validators.required],
       status: ['', Validators.required],
       weight: ['', Validators.required],
+      report: ["", Validators.required],
     });
   }
 
@@ -50,6 +51,7 @@ export class EditClientComponent implements OnInit{
           condition: this.clientData.condition,
           status: this.clientData.status,
           weight: this.clientData.weight,
+          report: this.clientData.report
         });
       }
     );

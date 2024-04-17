@@ -83,7 +83,10 @@ export class AuthService {
   autoLogin() {
     const userDataJSON = localStorage.getItem('physioCMSuserData');
     if (!userDataJSON) {
-      return;
+      // No user data found in localStorage, user is not logged in
+      this.user.next(ANONYMOUS_USER); // Update user BehaviorSubject
+      this.loggedInSubject.next(false); // Update loggedInSubject
+      return; // Exit the method
     }
 
     const userData: {
@@ -92,32 +95,34 @@ export class AuthService {
       _token: string;
       _tokenExpirationDate: Date;
     } = JSON.parse(userDataJSON);
-    if (!userData) {
-      return;
-    }
 
-    const loadedUser = new User(
-      userData.email,
-      userData.id,
-      userData._token,
-      new Date(userData._tokenExpirationDate)
-    );
-
-    if (loadedUser.token) {
-      this.user.next(loadedUser);
-      const expirationDuration =
-        new Date(userData._tokenExpirationDate).getTime() -
-        new Date().getTime();
+    // Check if the token exists and is not expired
+    const isTokenValid = !!userData._token && new Date(userData._tokenExpirationDate) > new Date();
+    if (isTokenValid) {
+      // Token is valid, user is logged in
+      const loadedUser = new User(
+        userData.email,
+        userData.id,
+        userData._token,
+        new Date(userData._tokenExpirationDate)
+      );
+      this.user.next(loadedUser); // Update user BehaviorSubject
+      this.loggedInSubject.next(true); // Update loggedInSubject
+      const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
       this.autoLogout(expirationDuration);
-
-      console.log('Navigating to /home');
-      this.router.navigate(['/home']);
+    } else {
+      // Token is expired or missing, user is not logged in
+      this.user.next(ANONYMOUS_USER); // Update user BehaviorSubject
+      this.loggedInSubject.next(false); // Update loggedInSubject
     }
   }
 
+
   logout() {
-    this.user.next(ANONYMOUS_USER);
+    // console.log('subject set to false')
     this.loggedInSubject.next(false);
+    this.user.next(ANONYMOUS_USER);
+
     this.router.navigate(['/auth']).then(r => r);
     localStorage.removeItem('physioCMSuserData');
     if (this.tokenExpirationTimer) {
@@ -143,8 +148,9 @@ export class AuthService {
     const expirationDate = new Date(expiresIn);
     const user = new User(email, userId, token, expirationDate);
     // console.log('user', user);
-    this.user.next(user);
     this.loggedInSubject.next(true);
+    // console.log('handleAuthentication called subject set to true')
+    this.user.next(user);
     const expirationDuration = expirationDate.getTime() - new Date().getTime();
     this.autoLogout(expirationDuration);
     localStorage.setItem('physioCMSuserData', JSON.stringify(user));
