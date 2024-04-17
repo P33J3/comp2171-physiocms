@@ -22,6 +22,8 @@ export const ANONYMOUS_USER: User = new User(
 export class AuthService {
   user = new BehaviorSubject<User>(ANONYMOUS_USER);
   private tokenExpirationTimer: any;
+  private loggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this.loggedInSubject.asObservable();
 
 
   private auth = getAuth();
@@ -115,6 +117,7 @@ export class AuthService {
 
   logout() {
     this.user.next(ANONYMOUS_USER);
+    this.loggedInSubject.next(false);
     this.router.navigate(['/auth']).then(r => r);
     localStorage.removeItem('physioCMSuserData');
     if (this.tokenExpirationTimer) {
@@ -139,8 +142,9 @@ export class AuthService {
   ) {
     const expirationDate = new Date(expiresIn);
     const user = new User(email, userId, token, expirationDate);
-    console.log('user', user);
+    // console.log('user', user);
     this.user.next(user);
+    this.loggedInSubject.next(true);
     const expirationDuration = expirationDate.getTime() - new Date().getTime();
     this.autoLogout(expirationDuration);
     localStorage.setItem('physioCMSuserData', JSON.stringify(user));
