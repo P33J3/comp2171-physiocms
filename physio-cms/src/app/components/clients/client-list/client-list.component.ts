@@ -28,7 +28,7 @@ export class ClientListComponent implements OnInit{
     this.client.allClients().subscribe(
       (client) => {
         this.clientData = client;
-        console.log('clients', this.clientData)
+        // console.log('clients', this.clientData)
     });
   }
 
